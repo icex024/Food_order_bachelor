@@ -1,0 +1,1 @@
+insert into registered_user (id,email,username,password,name,role) values (gen_random_uuid(),'icex024@gmail.com','prika','prika123','Prika',0);
