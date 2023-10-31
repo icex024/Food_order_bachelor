@@ -1,5 +1,6 @@
 package group.Food_order_bachelor.config;
 
+import group.Food_order_bachelor.enums.User_role;
 import group.Food_order_bachelor.service.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -26,8 +27,9 @@ public class SecurityConfiguration {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable)
-                .authorizeHttpRequests(request->request.requestMatchers("/api/v1/auth/**")
-                        .permitAll().anyRequest().authenticated())
+                .authorizeHttpRequests(request->request.requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers("/api/v1/resource/**").hasAuthority(User_role.ADMIN.name())
+                        .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
                         jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);

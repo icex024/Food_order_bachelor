@@ -23,7 +23,7 @@ public class AuthenticationService implements AuthenticationServiceInterface{
     @Override
     public JwtAuthenticationResponse signup(SignUp request) {
         var user = User.builder().name(request.getName()).username(request.getUsername()).
-                email(request.getEmail()).password(request.getPassword()).role(User_role.CUSTOMER).
+                email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(User_role.CUSTOMER).
                 build();
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);

@@ -1,1 +1,2 @@
-insert into registered_user (id,email,username,password,name,role) values (gen_random_uuid(),'icex024@gmail.com','prika','prika123','Prika',0);
+insert into registered_user (id,email,username,password,name,role)
+values (gen_random_uuid(),'icex024@gmail.com','prika','$2y$10$5wJzIlBCi6GFOZwGIYTS6ud/jN28.Go.HWxrwKwBjDOXU88yvC4qK','Prika','ADMIN');

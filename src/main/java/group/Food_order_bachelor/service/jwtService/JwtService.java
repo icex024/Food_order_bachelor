@@ -28,7 +28,9 @@ public class JwtService implements JwtServiceInterface{
 
     @Override
     public String generateToken(UserDetails userDetails) {
-        return generateToken(new HashMap<>(),userDetails);
+        HashMap<String,Object> claims = new HashMap<>();
+        claims.put("Roles",userDetails.getAuthorities());
+        return generateToken(claims,userDetails);
     }
 
     @Override
@@ -45,7 +47,7 @@ public class JwtService implements JwtServiceInterface{
     private String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return Jwts.builder().setClaims(extraClaims).setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 24))
+                .setExpiration(new Date(System.currentTimeMillis() + 1000 * 60 * 120))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256).compact();
     }
 
