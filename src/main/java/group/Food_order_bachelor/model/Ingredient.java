@@ -22,7 +22,7 @@ public class Ingredient {
     @Column(name="id", insertable = false, updatable = false, nullable = false)
     private UUID id;
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column(name="meatfree")

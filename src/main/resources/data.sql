@@ -1,5 +1,7 @@
 insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
 values ('76dad340-598d-4b93-8048-96a689a945e2','icex024@gmail.com','prika','$2y$10$5wJzIlBCi6GFOZwGIYTS6ud/jN28.Go.HWxrwKwBjDOXU88yvC4qK','Prika','','','','','ADMIN');
+insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
+values ('e6dbd222-3ad2-4b62-bcad-347aa6210343','slavko.jevtic.24@gmail.com','manager','$2y$10$xNQaS6TbfIuVLDPLm10xV.Rxv9xydNaPHCJRr5Rj81tjBZM1mPaQq','Prika','','','','','MANAGER');
 
 insert into allergens (id,name) values ('304fea88-d90a-4d90-a9db-a273378d7058','Milk');
 insert into allergens (id,name) values ('fb3f3ffb-807e-42f0-952d-d59e4f8a7a97','Eggs');

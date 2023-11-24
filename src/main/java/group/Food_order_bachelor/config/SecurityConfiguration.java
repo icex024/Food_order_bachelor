@@ -48,6 +48,8 @@ public class SecurityConfiguration {
         http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request->request.requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/resource/**").hasAuthority(User_role.ADMIN.name())
+                        .requestMatchers("/api/v1/allergen/**").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("/api/v1/ingredient").hasAuthority(User_role.MANAGER.name())
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
