@@ -15,13 +15,13 @@ import java.util.UUID;
 @Data
 @Builder
 @Entity
-@Table(name="registered_user")
+@Table(name="registered_users")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
-
+    //dodatne usere dodaj, customer manager, driver i admin kao tabele, trebace sigurno prika
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name="id", insertable = false, updatable = false, nullable = false)
@@ -30,18 +30,34 @@ public class User implements UserDetails {
     @Column(unique = true,nullable = false)
     private String username;
 
-    @Column(unique = true,nullable = false)
+    @Column(nullable = false)
     private String email;
 
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false)
-    private String name;
+    @Column(name="firstname")
+    private String firstName;
+
+    @Column(name="lastname")
+    private String lastName;
+
+    @Column
+    private String city;
+
+    @Column(name="streetname")
+    private String streetName;
+
+    @Column(name="streetnumber")
+    private String streetNumber;
 
     @Column
     @Enumerated(EnumType.STRING)
     private User_role role;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "restaurant_id")
+    private Restaurant restaurant;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

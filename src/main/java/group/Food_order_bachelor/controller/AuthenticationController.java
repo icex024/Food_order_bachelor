@@ -19,7 +19,7 @@ public class AuthenticationController {
     public ResponseEntity<JwtAuthenticationResponse> signup(@RequestBody SignUp request){
         return ResponseEntity.ok(authenticationService.signup(request));
     }
-
+    @CrossOrigin("http://localhost:3000")
     @PostMapping("/signin")
     public ResponseEntity<JwtAuthenticationResponse> signin(@RequestBody SignIn request){
         return ResponseEntity.ok(authenticationService.signin(request));

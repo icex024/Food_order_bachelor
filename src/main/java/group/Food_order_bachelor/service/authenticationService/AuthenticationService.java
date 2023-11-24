@@ -22,9 +22,10 @@ public class AuthenticationService implements AuthenticationServiceInterface{
     private final AuthenticationManager authenticationManager;
     @Override
     public JwtAuthenticationResponse signup(SignUp request) {
-        var user = User.builder().name(request.getName()).username(request.getUsername()).
-                email(request.getEmail()).password(passwordEncoder.encode(request.getPassword())).role(User_role.CUSTOMER).
-                build();
+        var user = User.builder().firstName(request.getFirstName()).lastName(request.getFirstName())
+                .streetNumber(request.getStreetNumber()).city(request.getCity()).streetName(request.getStreetName())
+                .username(request.getUsername()).email(request.getEmail())
+                .password(passwordEncoder.encode(request.getPassword())).role(User_role.CUSTOMER).build();
         userRepository.save(user);
         var jwt = jwtService.generateToken(user);
         return JwtAuthenticationResponse.builder().token(jwt).build();
