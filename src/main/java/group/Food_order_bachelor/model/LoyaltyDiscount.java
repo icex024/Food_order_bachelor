@@ -14,4 +14,10 @@ import java.util.UUID;
 public class LoyaltyDiscount extends LoyaltyDefinition {
     @Column(name="discountinpercentage")
     private int discountInPercentage;
+
+    @Builder
+    public LoyaltyDiscount(UUID id,Restaurant restaurant,int threshold,boolean reset,int discountInPercentage){
+        super(id,restaurant,threshold,reset);
+        this.discountInPercentage= discountInPercentage;
+    }
 }

@@ -8,7 +8,6 @@ import org.hibernate.annotations.FetchMode;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
 @Builder
 @Entity
 @Table(name="ingredients")
@@ -22,7 +21,7 @@ public class Ingredient {
     @Column(name="id", insertable = false, updatable = false, nullable = false)
     private UUID id;
 
-    @Column
+    @Column(unique = true)
     private String name;
 
     @Column(name="meatfree")

@@ -10,7 +10,6 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
 @Builder
 @Entity
 @Table(name="foods")
@@ -33,7 +32,7 @@ public class Food {
     @Fetch(FetchMode.SUBSELECT)
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name="foods_ingredients")
-    private Set<Ingredient> ingredients;//ovo povezati sa ingredient
+    private Set<Ingredient> ingredients;
 
     @Column(name = "estimatedtimeforpreparationinminutes")
     private int estimatedTimeForPreparationInMinutes;

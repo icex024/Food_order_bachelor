@@ -1,6 +1,7 @@
 package group.Food_order_bachelor.model;
 
 import jakarta.persistence.*;
+import jakarta.transaction.Transactional;
 import lombok.*;
 
 import java.util.HashSet;
@@ -8,7 +9,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
+
 @Builder
 @Entity
 @Table(name="menus")

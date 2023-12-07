@@ -6,8 +6,7 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Data
-@Builder
+
 @Entity
 @Table(name="loyalties")
 @Getter
@@ -25,17 +24,11 @@ public class LoyaltyDefinition {
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id")
-    private Restaurant restaurant;//bice povezan na restoran
+    private Restaurant restaurant;
 
     @Column
     private int threshold;
 
     @Column
     private boolean reset;
-
-//    @Column(insertable=false, updatable=false,name = "loyaltytype")
-//    @Enumerated(EnumType.STRING)
-//    private Loyalty_type loyaltyType;
-
-    //ovu klasu deca treba da nasledjuju
 }

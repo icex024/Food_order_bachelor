@@ -12,7 +12,6 @@ import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
-@Data
 @Builder
 @Entity
 @Table(name="registered_users")
