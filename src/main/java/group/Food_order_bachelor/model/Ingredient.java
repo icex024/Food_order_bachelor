@@ -8,7 +8,6 @@ import org.hibernate.annotations.FetchMode;
 import java.util.Set;
 import java.util.UUID;
 
-@Data
 @Builder
 @Entity
 @Table(name="ingredients")

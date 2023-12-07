@@ -48,22 +48,24 @@ values ('0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','Restaurant test','Need to edit',
 
 insert into menus (id,name,restaurant_id)
 values ('5fc2dd31-415c-44c9-8f9b-bfa80c1e746e','Menu test','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8');
+-- insert into menus (id,name,restaurant_id)
+-- values ('4d0c4407-3d62-41e9-a359-2816b0182ce1','Second menu','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8');
 
 insert into foods (id,name,description,estimatedtimeforpreparationinminutes,foodtype,meatfree,price,menu_id)
-values ('03ad4dfc-c7fe-4282-ada2-23ffe116abd6','Roasted pork','nedd to edit',20,'MEAT',false,890,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
+values ('03ad4dfc-c7fe-4282-ada2-23ffe116abd6','Roasted pork','nedd to edit',20,'MEAT',false,890.0,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
 insert into foods (id,name,description,estimatedtimeforpreparationinminutes,foodtype,meatfree,price,menu_id)
-values ('36918170-91f5-46a5-894d-609aa00b590c','Carbonara','nedd to edit',20,'PASTA',false,890,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
+values ('36918170-91f5-46a5-894d-609aa00b590c','Carbonara','nedd to edit',20,'PASTA',false,890.0,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
 insert into foods (id,name,description,estimatedtimeforpreparationinminutes,foodtype,meatfree,price,menu_id)
-values ('f99320d6-f638-47d4-8b1d-2e10e2e3698e','Pizza pepperoni','nedd to edit',20,'PIZZA',false,890,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
+values ('f99320d6-f638-47d4-8b1d-2e10e2e3698e','Pizza pepperoni','nedd to edit',20,'PIZZA',false,890.0,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
+insert into foods (id,name,description,estimatedtimeforpreparationinminutes,foodtype,meatfree,price)
+values ('108ef0ec-d4a0-4703-874f-eb9f8f9e651c','Chips with mayonnaise','nedd to edit',20,'APPETIZER',false,890.0);
 insert into foods (id,name,description,estimatedtimeforpreparationinminutes,foodtype,meatfree,price,menu_id)
-values ('108ef0ec-d4a0-4703-874f-eb9f8f9e651c','Chips with mayonnaise','nedd to edit',20,'APPETIZER',false,890,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
-insert into foods (id,name,description,estimatedtimeforpreparationinminutes,foodtype,meatfree,price,menu_id)
-values ('76f57c91-c3ea-4bb5-8830-fddcbe3a7c91','Coca cola 1.5l','nedd to edit',0,'DRINK',false,200,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
+values ('76f57c91-c3ea-4bb5-8830-fddcbe3a7c91','Coca cola 1.5l','nedd to edit',0,'DRINK',false,200.0,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
 
 insert into loyalties (id,restaurant_id,loyalty_type,discountinpercentage,threshold,reset)
-values ('d213a768-5733-4f6f-b9f5-22b4b93c2e0b','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','DISCOUNT',5,6,true);
+values ('d213a768-5733-4f6f-b9f5-22b4b93c2e0b','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','LoyaltyDiscount',5,6,true);
 insert into loyalties (id,restaurant_id,loyalty_type,freedrink_id,threshold,reset)
-values ('713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','FREE_DRINK','76f57c91-c3ea-4bb5-8830-fddcbe3a7c91',6,true);
+values ('713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','LoyaltyFreeDrink','76f57c91-c3ea-4bb5-8830-fddcbe3a7c91',6,true);
 
 insert into foods_ingredients (foods_id,ingredients_id)
 values ('03ad4dfc-c7fe-4282-ada2-23ffe116abd6','f106574b-3834-4620-94f7-12432ef085b4');

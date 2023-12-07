@@ -1,11 +1,14 @@
 package group.Food_order_bachelor.controller;
 
 import group.Food_order_bachelor.dto.ingredient.CreateIngredientDto;
+import group.Food_order_bachelor.dto.ingredient.IngredientToShowDto;
 import group.Food_order_bachelor.service.ingredientService.IngredientService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/ingredient")
@@ -15,12 +18,13 @@ public class IngredientController {
 
     @PostMapping("/create-ingredient")
     @CrossOrigin("http://localhost:3000")
-    public HttpStatus  createIngredient(@RequestBody CreateIngredientDto dto){
+    public void  createIngredient(@RequestBody CreateIngredientDto dto){
         ingredientService.CreateNewIngredient(dto);
-        try{
-            return HttpStatus.ACCEPTED;
-        }catch (Exception e){
-            return HttpStatus.BAD_REQUEST;//ovo namestati sutra
-        }
+    }
+
+    @GetMapping("/get-all-ingredients")
+    @CrossOrigin("http://localhost:3000")
+    public List<IngredientToShowDto> getAllIngredients(){
+        return ingredientService.getAllIngredients();
     }
 }

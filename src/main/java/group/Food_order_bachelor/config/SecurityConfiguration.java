@@ -38,7 +38,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT","PATCH","OPTIONS"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/v1/**", configuration);
         return source;
@@ -49,7 +49,15 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(request->request.requestMatchers("/api/v1/auth/**").permitAll()
                         .requestMatchers("/api/v1/resource/**").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("/api/v1/allergen/**").hasAuthority(User_role.MANAGER.name())
-                        .requestMatchers("/api/v1/ingredient").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("/api/v1/ingredient/**").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("/api/v1/food/**").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/menu/create-menu").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/menu/remove-menu").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/restaurant/create-restaurant").hasAuthority(User_role.ADMIN.name())
+                        .requestMatchers("api/v1/restaurant/get-restaurants").hasAuthority(User_role.ADMIN.name())
+                        .requestMatchers("api/v1/restaurant/get-restaurants").hasAuthority(User_role.CUSTOMER.name())
+                        .requestMatchers("api/v1/loyalty/create-loyalty").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/restaurant/get-restaurant").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
