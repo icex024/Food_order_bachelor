@@ -1,9 +1,12 @@
 package group.Food_order_bachelor.service.loyaltyService;
 
-import group.Food_order_bachelor.dto.loyalty.CreateLoyaltyDefinitionDto;
-import group.Food_order_bachelor.model.Food;
+import group.Food_order_bachelor.model.Loyalty;
 import group.Food_order_bachelor.model.Restaurant;
+import group.Food_order_bachelor.model.User;
+
+import java.util.Set;
 
 public interface LoyaltyServiceInterface {
-    void creteLoyalty(CreateLoyaltyDefinitionDto dto, Restaurant restaurant, Food food);
+    Set<Loyalty> findLoyaltiesForUser(User user, Restaurant restaurant);
+    void incrementLoyalties(User user,Restaurant restaurant);
 }

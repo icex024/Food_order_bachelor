@@ -8,9 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Builder
 @Entity
@@ -20,7 +18,6 @@ import java.util.UUID;
 @AllArgsConstructor
 @NoArgsConstructor
 public class User implements UserDetails {
-    //dodatne usere dodaj, customer manager, driver i admin kao tabele, trebace sigurno prika
     @Id
     @GeneratedValue(generator = "UUID")
     @Column(name="id", insertable = false, updatable = false, nullable = false)
@@ -57,6 +54,9 @@ public class User implements UserDetails {
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
+
+    @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Order> orders= new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

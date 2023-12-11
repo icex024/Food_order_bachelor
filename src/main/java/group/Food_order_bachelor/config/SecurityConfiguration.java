@@ -57,6 +57,7 @@ public class SecurityConfiguration {
                         .requestMatchers("api/v1/restaurant/get-restaurants").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("api/v1/restaurant/get-restaurants").hasAuthority(User_role.CUSTOMER.name())
                         .requestMatchers("api/v1/loyalty/create-loyalty").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/order/create-order").hasAuthority(User_role.CUSTOMER.name())
                         .requestMatchers("api/v1/restaurant/get-restaurant").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .anyRequest().authenticated())

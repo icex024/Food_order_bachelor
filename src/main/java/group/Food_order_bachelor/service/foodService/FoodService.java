@@ -14,9 +14,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 @Transactional
@@ -54,9 +52,7 @@ public class FoodService implements FoodServiceInterface {
     }
 
     @Override
-    public Food getFoodById(UUID id) {
-        return foodRepository.getReferenceById(id);
-    }
+    public Food getFoodById(UUID id) { return foodRepository.getReferenceById(id); }
 
     @Override
     public void addFoodToMenu(AddOrChangeFoodFromMenuDto dto) {
@@ -81,6 +77,15 @@ public class FoodService implements FoodServiceInterface {
     @Override
     public void deselectMenuFromFood(String menuId) {
         foodRepository.updateMenuStatus(UUID.fromString(menuId));
+    }
+
+    @Override
+    public List<Food> getFoodsByIds(List<String> ids) {
+        List<Food> foods = new ArrayList<>();
+        for(var id: ids){
+            foods.add(foodRepository.getReferenceById(UUID.fromString(id)));
+        }
+        return foods;
     }
 
 

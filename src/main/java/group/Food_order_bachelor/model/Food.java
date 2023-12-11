@@ -52,5 +52,8 @@ public class Food {
     private Menu menu;
 
     @OneToMany(mappedBy = "freeDrink",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
-    private Set<LoyaltyFreeDrink> loyaltyFreeDrink = new HashSet<>();
+    private Set<LoyaltyDefinition> loyaltyFreeDrink = new HashSet<>();
+
+    @ManyToMany(mappedBy = "foods")
+    private Set<Order> orders;
 }

@@ -55,4 +55,10 @@ public class Restaurant {
 
     @OneToMany(mappedBy = "restaurant",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<LoyaltyDefinition> loyaltyDefinitions = new HashSet<>();
+
+    @Column(name="numberofslotsformakingfood")
+    private int numberOfSlotsForMakingFood;
+
+    @Column(name="freeslots")
+    private int freeSlots;
 }

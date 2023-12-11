@@ -2,6 +2,7 @@ package group.Food_order_bachelor.service.userService;
 
 import group.Food_order_bachelor.dto.restaurant.AddManagerOrDriverToRestaurantDto;
 import group.Food_order_bachelor.model.Restaurant;
+import group.Food_order_bachelor.model.User;
 import group.Food_order_bachelor.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -40,5 +41,10 @@ public class UserService implements UserServiceInterface {
         var driver = userRepository.getReferenceById(UUID.fromString(dto.getUserId()));
         driver.setRestaurant(restaurant);
         userRepository.saveAndFlush(driver);
+    }
+
+    @Override
+    public User getUserById(UUID uuid) {
+        return userRepository.getReferenceById(uuid);
     }
 }

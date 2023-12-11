@@ -1,8 +1,8 @@
 package group.Food_order_bachelor.controller;
 
-import group.Food_order_bachelor.dto.loyalty.CreateLoyaltyDefinitionDto;
+import group.Food_order_bachelor.dto.loyaltyDefinition.CreateLoyaltyDefinitionDto;
 import group.Food_order_bachelor.service.foodService.FoodService;
-import group.Food_order_bachelor.service.loyaltyService.LoyaltyService;
+import group.Food_order_bachelor.service.loyaltyDefinitionService.LoyaltyDefinitionService;
 import group.Food_order_bachelor.service.restaurantService.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @RequestMapping("/api/v1/loyalty")
 @RequiredArgsConstructor
 public class LoyaltyController {
-    private final LoyaltyService loyaltyService;
+    private final LoyaltyDefinitionService loyaltyService;
     private final RestaurantService restaurantService;
     private final FoodService foodService;
     @PostMapping("/create-loyalty")

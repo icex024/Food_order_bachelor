@@ -1,4 +1,4 @@
-package group.Food_order_bachelor.dto.loyalty;
+package group.Food_order_bachelor.dto.loyaltyDefinition;
 
 import lombok.*;
 

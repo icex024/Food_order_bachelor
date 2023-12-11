@@ -8,14 +8,12 @@ import java.util.UUID;
 
 
 @Entity
-@Table(name="loyalties")
+@Table(name="loyalty_definitions")
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Inheritance(strategy = InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="loyaltyType",
-        discriminatorType = DiscriminatorType.STRING)
+@Builder
 public class LoyaltyDefinition {
     @Id
     @GeneratedValue(generator = "UUID")
@@ -31,4 +29,15 @@ public class LoyaltyDefinition {
 
     @Column
     private boolean reset;
+
+    @Column(name="discountinpercentage")
+    private int discountInPercentage;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name="freedrink_id",nullable = true)
+    private Food freeDrink;
+
+    @Column(name = "loyalty_type")
+    @Enumerated(EnumType.STRING)
+    private Loyalty_type loyaltyType;
 }

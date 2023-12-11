@@ -2,6 +2,10 @@ insert into registered_users (id,email,username,password,firstname,lastname,city
 values ('76dad340-598d-4b93-8048-96a689a945e2','icex024@gmail.com','prika','$2y$10$5wJzIlBCi6GFOZwGIYTS6ud/jN28.Go.HWxrwKwBjDOXU88yvC4qK','Prika','','','','','ADMIN');
 insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
 values ('e6dbd222-3ad2-4b62-bcad-347aa6210343','slavko.jevtic.24@gmail.com','manager','$2y$10$xNQaS6TbfIuVLDPLm10xV.Rxv9xydNaPHCJRr5Rj81tjBZM1mPaQq','Prika','','','','','MANAGER');
+insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
+values ('a4a01b84-969e-11ee-b9d1-0242ac120002','1@gmail.com','customer','$2y$10$ilpzZ9a28y2znNVqyTfXRe6/OXvlCvaT1sjQVZv7eyX35K20rvYL2','customer','','','','','CUSTOMER');
+insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
+values ('b518556a-d40d-484c-b03b-9aadc3bb42e3','2@gmail.com','driver','$2a$12$KxTetvzx85WbgDoG6sv1auzTJAmcHsm9Ml1uxbHOuWtsVawqjeQ0y','driver','','','','','DELIVERER');
 
 insert into allergens (id,name) values ('304fea88-d90a-4d90-a9db-a273378d7058','Milk');
 insert into allergens (id,name) values ('fb3f3ffb-807e-42f0-952d-d59e4f8a7a97','Eggs');
@@ -43,8 +47,8 @@ insert into ingredients (id,name,meatfree) values ('a3edece8-13a3-4504-8684-b865
 insert into ingredients (id,name,meatfree) values ('d409f36a-acf6-4ff8-a820-ae5d845a0455','Fat',true);
 insert into ingredients (id,name,meatfree) values ('4c2065c0-7be7-47e5-97c2-79a439cbf0d6','Oil',true);
 
-insert into restaurants (id,name,description,streetname,streetnumber,city,country,worktimestart,worktimeend)
-values ('0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','Restaurant test','Need to edit','street','street number','city name','country','07:00','22:00');
+insert into restaurants (id,name,description,streetname,streetnumber,city,country,worktimestart,worktimeend,numberofslotsformakingfood,freeslots)
+values ('0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','Restaurant test','Need to edit','street','street number','city name','country','07:00','22:00',7,7);
 
 insert into menus (id,name,restaurant_id)
 values ('5fc2dd31-415c-44c9-8f9b-bfa80c1e746e','Menu test','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8');
@@ -62,10 +66,10 @@ values ('108ef0ec-d4a0-4703-874f-eb9f8f9e651c','Chips with mayonnaise','nedd to 
 insert into foods (id,name,description,estimatedtimeforpreparationinminutes,foodtype,meatfree,price,menu_id)
 values ('76f57c91-c3ea-4bb5-8830-fddcbe3a7c91','Coca cola 1.5l','nedd to edit',0,'DRINK',false,200.0,'5fc2dd31-415c-44c9-8f9b-bfa80c1e746e');
 
-insert into loyalties (id,restaurant_id,loyalty_type,discountinpercentage,threshold,reset)
-values ('d213a768-5733-4f6f-b9f5-22b4b93c2e0b','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','LoyaltyDiscount',5,6,true);
-insert into loyalties (id,restaurant_id,loyalty_type,freedrink_id,threshold,reset)
-values ('713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','LoyaltyFreeDrink','76f57c91-c3ea-4bb5-8830-fddcbe3a7c91',6,true);
+insert into loyalty_definitions (id,restaurant_id,loyalty_type,freedrink_id,discountinpercentage,threshold,reset)
+values ('d213a768-5733-4f6f-b9f5-22b4b93c2e0b','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','DISCOUNT',null,5,6,true);
+insert into loyalty_definitions (id,restaurant_id,loyalty_type,freedrink_id,discountinpercentage,threshold,reset)
+values ('713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','FREE_DRINK','76f57c91-c3ea-4bb5-8830-fddcbe3a7c91',0,6,true);
 
 insert into foods_ingredients (foods_id,ingredients_id)
 values ('03ad4dfc-c7fe-4282-ada2-23ffe116abd6','f106574b-3834-4620-94f7-12432ef085b4');
@@ -126,3 +130,8 @@ insert into ingredients_allergens (ingredients_id,allergens_id)
 values ('5fe6af27-0e31-4a16-b3a5-7fc6dd450544','fb3f3ffb-807e-42f0-952d-d59e4f8a7a97');
 insert into ingredients_allergens (ingredients_id,allergens_id)
 values ('e821173c-bf00-4eab-9cce-92ccb0ede302','404a6a23-7c78-468e-921c-f29ac084e891');
+
+insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
+values ('043fa163-0efc-4e39-b1ae-37b8398cca50','d213a768-5733-4f6f-b9f5-22b4b93c2e0b','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);
+insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
+values ('e7055fdf-6910-401f-b7ae-7cbb15d6097d','713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);
