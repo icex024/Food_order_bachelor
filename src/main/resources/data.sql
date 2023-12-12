@@ -133,5 +133,5 @@ values ('e821173c-bf00-4eab-9cce-92ccb0ede302','404a6a23-7c78-468e-921c-f29ac084
 
 insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
 values ('043fa163-0efc-4e39-b1ae-37b8398cca50','d213a768-5733-4f6f-b9f5-22b4b93c2e0b','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);
-insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
-values ('e7055fdf-6910-401f-b7ae-7cbb15d6097d','713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);
+-- insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
+-- values ('e7055fdf-6910-401f-b7ae-7cbb15d6097d','713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);

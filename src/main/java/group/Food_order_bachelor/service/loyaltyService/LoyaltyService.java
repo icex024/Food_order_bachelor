@@ -1,6 +1,7 @@
 package group.Food_order_bachelor.service.loyaltyService;
 
 import group.Food_order_bachelor.model.Loyalty;
+import group.Food_order_bachelor.model.LoyaltyDefinition;
 import group.Food_order_bachelor.model.Restaurant;
 import group.Food_order_bachelor.model.User;
 import group.Food_order_bachelor.repository.LoyaltyV2Repository;
@@ -18,12 +19,8 @@ public class LoyaltyService implements LoyaltyServiceInterface {
     private final LoyaltyV2Repository loyaltyRepository;
     @Override//ovo je lose implementirano, napravi da dodaje nove loyaltije i sve provere itd.
     public Set<Loyalty> findLoyaltiesForUser(User user, Restaurant restaurant) {
-        var loyalties =  loyaltyRepository.selectLoyaltiesForUser(user.getId(),restaurant.getId());
-        if(loyalties.isEmpty()){
-            return createNewLoyalties(user, restaurant);
-        }else{
-            return loyalties;
-        }
+        return createNewLoyaltiesIfNeeded(
+                loyaltyRepository.selectLoyaltiesForUser(user.getId(),restaurant.getId()),user,restaurant);
     }
 
     @Override
@@ -44,13 +41,23 @@ public class LoyaltyService implements LoyaltyServiceInterface {
         }
     }
 
-    private Set<Loyalty> createNewLoyalties(User user,Restaurant restaurant){
-        Set<Loyalty> loyalties = new HashSet<>();
+    private Set<Loyalty> createNewLoyaltiesIfNeeded(Set<Loyalty> loyalties, User user,Restaurant restaurant){
         for(var loyaltyDefinition:restaurant.getLoyaltyDefinitions()){
-            loyalties.add(Loyalty.builder().id(UUID.randomUUID()).user(user).restaurant(restaurant)
-                    .loyaltyDefinition(loyaltyDefinition).numberOfOrders(0).build());
+            var loyaltyExist = false;
+            for(var loyalty:loyalties){
+                if(loyalty.getLoyaltyDefinition().getId().equals(loyaltyDefinition.getId())){
+                    loyaltyExist = true;
+                    break;
+                }
+            }
+            if(!loyaltyExist){
+                var loyalty = Loyalty.builder().id(UUID.randomUUID()).user(user).restaurant(restaurant)
+                        .loyaltyDefinition(loyaltyDefinition).numberOfOrders(0).build();
+                loyalties.add(loyalty);
+                loyaltyRepository.saveAndFlush(loyalty);
+            }
         }
-        loyaltyRepository.saveAll(loyalties);
+
         return loyalties;
     }
 }
