@@ -1,5 +1,8 @@
 package group.Food_order_bachelor.controller;
 
+import com.stripe.exception.StripeException;
+import com.stripe.model.PaymentIntent;
+import com.stripe.param.PaymentIntentCreateParams;
 import group.Food_order_bachelor.dto.order.CreateOrderDto;
 import group.Food_order_bachelor.service.foodService.FoodService;
 import group.Food_order_bachelor.service.loyaltyService.LoyaltyService;
@@ -21,7 +24,7 @@ public class OrderController {
 
     @PostMapping("/create-order")
     @CrossOrigin("http://localhost:3000")
-    public void createOrder(@RequestBody CreateOrderDto dto){
+    public String createOrder(@RequestBody CreateOrderDto dto){
         //nadji loyalty
         var foods = foodService.getFoodsByIds(dto.getFoodIds());
         var user = userService.getUserById(UUID.fromString(dto.getUserId()));
@@ -30,6 +33,19 @@ public class OrderController {
         orderService.createOrder(dto,userService.getUserById(UUID.fromString(dto.getUserId()))
                 ,foodService.getFoodsByIds(dto.getFoodIds()),loyalties);
         loyaltyService.incrementLoyalties(user,restaurant);
+        try{
+            PaymentIntentCreateParams createParams = new
+                    PaymentIntentCreateParams.Builder()
+                    .setCurrency("usd")
+                    .putMetadata("featureRequest", dto.getNote())
+                    .setAmount(420*100L)
+                    .build();
+
+            PaymentIntent intent = PaymentIntent.create(createParams);
+            return intent.getClientSecret();
+        }catch (StripeException e){
+            throw new RuntimeException(e.getMessage());
+        }
     }
 
     @GetMapping("/get-orders-for-customer")

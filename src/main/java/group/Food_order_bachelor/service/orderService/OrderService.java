@@ -4,17 +4,16 @@ import group.Food_order_bachelor.dto.order.CreateOrderDto;
 import group.Food_order_bachelor.dto.order.OrderAdapter;
 import group.Food_order_bachelor.enums.Loyalty_type;
 import group.Food_order_bachelor.enums.Order_status;
-import group.Food_order_bachelor.model.Food;
-import group.Food_order_bachelor.model.Loyalty;
-import group.Food_order_bachelor.model.LoyaltyDefinition;
-import group.Food_order_bachelor.model.User;
+import group.Food_order_bachelor.model.*;
 import group.Food_order_bachelor.repository.OrderRepository;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.time.ZoneId;
+import java.time.ZoneOffset;
+import java.util.*;
 
 @Service
 @RequiredArgsConstructor
@@ -26,9 +25,17 @@ public class OrderService implements OrderServiceInterface {
     public void createOrder(CreateOrderDto dto, User user, List<Food> foods, Set<Loyalty> loyalties) {
         var order = orderAdapter.createOrderDtoToOrder(dto,user,addFreeDrinks(foods,loyalties));
         order.setPrice(calculateOrderPrice(foods,loyalties));
-        order.setEstimatedTime(calculateEstimatedTime(foods));
+//        order.setEstimatedTime(calculateEstimatedTime(foods));
+        order.setEstimatedTime(2);
         order.setStatus(Order_status.PROCESS.name());
         orderRepository.save(order);
+        setTimer(order,orderRepository);
+    }
+
+    private void setTimer(Order order,OrderRepository orderRepository){
+        Date endDate = Date.from(order.getTimeOfMakingOrder().plusMinutes(order.getEstimatedTime()).atZone(ZoneId.systemDefault()).toInstant());
+        System.out.println(endDate);
+        new Timer().schedule(new changeOrderStatus(order,orderRepository),endDate);
     }
 
     private List<Food> addFreeDrinks(List<Food> foods,Set<Loyalty> loyalties){
@@ -71,5 +78,16 @@ public class OrderService implements OrderServiceInterface {
             estimatedTime = estimatedTime + food.getEstimatedTimeForPreparationInMinutes();
         }
         return estimatedTime;
+    }
+}
+
+@AllArgsConstructor
+class changeOrderStatus extends TimerTask{
+    private Order order;
+    private final OrderRepository orderRepository;
+    @Override
+    public void run() {
+        order.setStatus(Order_status.READY.name());
+        orderRepository.saveAndFlush(order);
     }
 }
