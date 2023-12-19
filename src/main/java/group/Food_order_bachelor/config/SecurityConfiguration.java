@@ -60,6 +60,8 @@ public class SecurityConfiguration {
                         .requestMatchers("api/v1/order/create-order").hasAuthority(User_role.CUSTOMER.name())
                         .requestMatchers("api/v1/stripe/card/token").hasAuthority(User_role.CUSTOMER.name())
                         .requestMatchers("api/v1/stripe/charge").hasAuthority(User_role.CUSTOMER.name())
+                        .requestMatchers("api/v1/restaurant/get-ready-orders-for-deliverer").hasAuthority(User_role.DELIVERER.name())
+                        .requestMatchers("api/v1/order/take-order").hasAuthority(User_role.DELIVERER.name())
                         .requestMatchers("api/v1/restaurant/get-restaurant").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .anyRequest().authenticated())

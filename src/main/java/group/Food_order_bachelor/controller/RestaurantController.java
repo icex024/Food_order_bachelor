@@ -3,6 +3,7 @@ package group.Food_order_bachelor.controller;
 import group.Food_order_bachelor.dto.restaurant.CreateRestaurantDto;
 import group.Food_order_bachelor.dto.restaurant.GetRestaurantByIdDto;
 import group.Food_order_bachelor.dto.restaurant.RestaurantPreviewDto;
+import group.Food_order_bachelor.dto.restaurant.ViewOrdersDriverDto;
 import group.Food_order_bachelor.service.restaurantService.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -44,5 +45,11 @@ public class RestaurantController {
     @CrossOrigin("http://localhost:3000")
     public GetRestaurantByIdDto getRestaurant(@RequestParam String id){
         return restaurantService.getRestaurantByIdForClient(UUID.fromString(id));
+    }
+
+    @GetMapping("/get-ready-orders-for-deliverer")
+    @CrossOrigin("http://localhost:3000")
+    public List<ViewOrdersDriverDto> getOrdersForDeliverer(@RequestParam String restaurantId){
+        return restaurantService.viewReadyOrdersForDeliverer(restaurantId);
     }
 }

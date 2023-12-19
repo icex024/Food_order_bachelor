@@ -51,12 +51,19 @@ public class User implements UserDetails {
     @Enumerated(EnumType.STRING)
     private User_role role;
 
-    @ManyToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "restaurant_id")
     private Restaurant restaurant;
 
     @OneToMany(mappedBy = "user",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Order> orders= new HashSet<>();
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "deliverer_slots_id", referencedColumnName = "id")
+    private DelivererSlots delivererSlots;
+
+    @OneToMany(mappedBy = "deliverer",fetch =  FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Order> ordersForDeliverer = new HashSet<>();
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

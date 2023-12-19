@@ -1,11 +1,12 @@
 insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
-values ('76dad340-598d-4b93-8048-96a689a945e2','icex024@gmail.com','prika','$2y$10$5wJzIlBCi6GFOZwGIYTS6ud/jN28.Go.HWxrwKwBjDOXU88yvC4qK','Prika','','','','','ADMIN');
+values ('76dad340-598d-4b93-8048-96a689a945e2','icex024@gmail.com','prika','$2y$10$5wJzIlBCi6GFOZwGIYTS6ud/jN28.Go.HWxrwKwBjDOXU88yvC4qK'
+       ,'Prika','','','','','ADMIN');
 insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
-values ('e6dbd222-3ad2-4b62-bcad-347aa6210343','slavko.jevtic.24@gmail.com','manager','$2y$10$xNQaS6TbfIuVLDPLm10xV.Rxv9xydNaPHCJRr5Rj81tjBZM1mPaQq','Prika','','','','','MANAGER');
+values ('e6dbd222-3ad2-4b62-bcad-347aa6210343','slavko.jevtic.24@gmail.com','manager','$2y$10$xNQaS6TbfIuVLDPLm10xV.Rxv9xydNaPHCJRr5Rj81tjBZM1mPaQq'
+       ,'Prika','','','','','MANAGER');
 insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
-values ('a4a01b84-969e-11ee-b9d1-0242ac120002','1@gmail.com','customer','$2y$10$ilpzZ9a28y2znNVqyTfXRe6/OXvlCvaT1sjQVZv7eyX35K20rvYL2','customer','','','','','CUSTOMER');
-insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role)
-values ('b518556a-d40d-484c-b03b-9aadc3bb42e3','2@gmail.com','driver','$2a$12$KxTetvzx85WbgDoG6sv1auzTJAmcHsm9Ml1uxbHOuWtsVawqjeQ0y','driver','','','','','DELIVERER');
+values ('a4a01b84-969e-11ee-b9d1-0242ac120002','1@gmail.com','customer','$2y$10$ilpzZ9a28y2znNVqyTfXRe6/OXvlCvaT1sjQVZv7eyX35K20rvYL2'
+       ,'customer','prezime','Novi Sad','Cara Dusana','57','CUSTOMER');
 
 insert into allergens (id,name) values ('304fea88-d90a-4d90-a9db-a273378d7058','Milk');
 insert into allergens (id,name) values ('fb3f3ffb-807e-42f0-952d-d59e4f8a7a97','Eggs');
@@ -133,5 +134,25 @@ values ('e821173c-bf00-4eab-9cce-92ccb0ede302','404a6a23-7c78-468e-921c-f29ac084
 
 insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
 values ('043fa163-0efc-4e39-b1ae-37b8398cca50','d213a768-5733-4f6f-b9f5-22b4b93c2e0b','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);
+
+insert into orders (id,restaurant_id,user_id,price,note,paymenttype,timeofmakingorder,estimatedtime,status)
+values('da4d10c3-55a3-4dc8-80bd-2278b7acd6f2','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002'
+    ,1780.0,'test order','CASH','2023-12-18T16:25:00',40,'READY');
+
+-- insert into orders (id,user_id,price,note,paymenttype,timeofmakingorder,estimatedtime,status)
+-- values('da4d10c3-55a3-4dc8-80bd-2278b7acd6f2','a4a01b84-969e-11ee-b9d1-0242ac120002',1780.0,'test order','2023-12-18T16:25:00',40,'READY');
+
+insert into orders_foods(orders_id,foods_id)
+    values('da4d10c3-55a3-4dc8-80bd-2278b7acd6f2','03ad4dfc-c7fe-4282-ada2-23ffe116abd6');
+insert into orders_foods(orders_id,foods_id)
+    values('da4d10c3-55a3-4dc8-80bd-2278b7acd6f2','36918170-91f5-46a5-894d-609aa00b590c');
+
+insert into deliverer_slots (id,availableslots,maxslots)
+values ('f0db81e0-b9fd-4425-ae55-78ea886ee4b5',3,3);
+
+insert into registered_users (id,email,username,password,firstname,lastname,city,streetname,streetnumber,role,restaurant_id,deliverer_slots_id)
+values ('b518556a-d40d-484c-b03b-9aadc3bb42e3','2@gmail.com','driver','$2a$12$KxTetvzx85WbgDoG6sv1auzTJAmcHsm9Ml1uxbHOuWtsVawqjeQ0y'
+       ,'driver','','','','','DELIVERER','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','f0db81e0-b9fd-4425-ae55-78ea886ee4b5');
+
 -- insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
 -- values ('e7055fdf-6910-401f-b7ae-7cbb15d6097d','713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);

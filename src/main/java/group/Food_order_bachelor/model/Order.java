@@ -24,6 +24,10 @@ public class Order {
     @Column(name="id", insertable = false, updatable = false, nullable = false)
     private UUID id;
 
+    @ManyToOne(fetch =  FetchType.LAZY)
+    @JoinColumn(name="restaurant_id")
+    private Restaurant restaurant;
+
     @Fetch(FetchMode.SUBSELECT)
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "orders_foods")
@@ -51,4 +55,8 @@ public class Order {
 
     @Column
     private String status;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name="deliverer_id")
+    private User deliverer;
 }
