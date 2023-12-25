@@ -12,4 +12,6 @@ public interface UserServiceInterface {
     void addManagerToRestaurant(AddManagerOrDriverToRestaurantDto dto, Restaurant restaurant);
     void addDriverToRestaurant(AddManagerOrDriverToRestaurantDto dto, Restaurant restaurant);
     User getUserById(UUID uuid);
+    void lowerSlotsForDeliverer(String delivererId);
+    void increaseAvailableSlotsForDeliverer(String deliverId);
 }

@@ -47,4 +47,18 @@ public class UserService implements UserServiceInterface {
     public User getUserById(UUID uuid) {
         return userRepository.getReferenceById(uuid);
     }
+
+    @Override
+    public void lowerSlotsForDeliverer(String delivererId) {
+        var user = getUserById(UUID.fromString(delivererId));
+        user.getDelivererSlots().setAvailableSlots(user.getDelivererSlots().getAvailableSlots()-1);
+        userRepository.saveAndFlush(user);
+    }
+
+    @Override
+    public void increaseAvailableSlotsForDeliverer(String delivererId) {
+        var user = getUserById(UUID.fromString(delivererId));
+        user.getDelivererSlots().setAvailableSlots(user.getDelivererSlots().getAvailableSlots()+1);
+        userRepository.saveAndFlush(user);
+    }
 }

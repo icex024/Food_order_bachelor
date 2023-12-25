@@ -1,9 +1,7 @@
 package group.Food_order_bachelor.service.restaurantService;
 
-import group.Food_order_bachelor.dto.restaurant.CreateRestaurantDto;
-import group.Food_order_bachelor.dto.restaurant.GetRestaurantByIdDto;
-import group.Food_order_bachelor.dto.restaurant.RestaurantAdapter;
-import group.Food_order_bachelor.dto.restaurant.RestaurantPreviewDto;
+import group.Food_order_bachelor.dto.restaurant.*;
+import group.Food_order_bachelor.enums.Order_status;
 import group.Food_order_bachelor.model.Restaurant;
 import group.Food_order_bachelor.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,5 +39,16 @@ public class RestaurantService implements RestaurantServiceInterface {
     @Override
     public GetRestaurantByIdDto getRestaurantByIdForClient(UUID uuid) {
         return restaurantAdapter.restaurantToGetRestaurantByIdDto(restaurantRepository.getReferenceById(uuid));
+    }
+
+    @Override
+    public List<ViewOrdersDriverDto> viewReadyOrdersForDeliverer(String restaurantId) {
+        List<ViewOrdersDriverDto> dtos = new ArrayList<>();
+        for(var order: restaurantRepository.getReferenceById(UUID.fromString(restaurantId)).getOrders()){
+            if(order.getStatus().equals(Order_status.READY.name())) {
+                dtos.add(restaurantAdapter.OrderToViewOrdersDriverDto(order));
+            }
+        }
+        return dtos;
     }
 }

@@ -1,9 +1,6 @@
 package group.Food_order_bachelor.dto.restaurant;
 
-import group.Food_order_bachelor.model.LoyaltyDefinition;
-import group.Food_order_bachelor.model.Menu;
-import group.Food_order_bachelor.model.Restaurant;
-import group.Food_order_bachelor.model.User;
+import group.Food_order_bachelor.model.*;
 import lombok.NoArgsConstructor;
 import org.apache.catalina.Manager;
 
@@ -38,6 +35,21 @@ public class RestaurantAdapter {
                 .managerIds(managerIds).driverIds(driverIds).workTimeEnd(restaurant.getWorkTimeEnd())
                 .workTimeStart(restaurant.getWorkTimeStart()).loyaltyDefinitionIds(loyaltiesIds)
                 .build();
+    }
+
+    public ViewOrdersDriverDto OrderToViewOrdersDriverDto(Order order){
+        return ViewOrdersDriverDto.builder().id(order.getId().toString()).foodIds(foodIds(order.getFoods()))
+                .city(order.getUser().getCity()).streetName(order.getUser().getStreetName())
+                .streetNumber(order.getUser().getStreetNumber()).price(order.getPrice()).note(order.getNote())
+                .paymentType(order.getPaymentType().toString()).build();
+    }
+
+    private List<String> foodIds(List<Food> foods){
+        List<String> ids = new ArrayList<>();
+        for(var food : foods){
+            ids.add(food.getId().toString());
+        }
+        return ids;
     }
 
     private List<String> managers(Set<User> list){

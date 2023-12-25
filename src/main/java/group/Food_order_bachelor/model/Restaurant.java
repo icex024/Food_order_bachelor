@@ -61,4 +61,13 @@ public class Restaurant {
 
     @Column(name="freeslots")
     private int freeSlots;
+
+    @OneToMany(mappedBy = "restaurant",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
+    private Set<Order> orders = new HashSet<>();
+
+    @Column
+    private double latitude;
+
+    @Column
+    private double longitude;
 }
