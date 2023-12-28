@@ -88,5 +88,10 @@ public class FoodService implements FoodServiceInterface {
         return foods;
     }
 
+    @Override
+    public void deselectIngredients(String ingredientId) {
+
+    }
+
 
 }

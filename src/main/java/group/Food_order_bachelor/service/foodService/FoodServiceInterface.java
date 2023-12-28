@@ -21,4 +21,5 @@ public interface FoodServiceInterface {
     void changeMenuForFood(AddOrChangeFoodFromMenuDto dto);
     void deselectMenuFromFood(String menuId);
     List<Food> getFoodsByIds(List<String> ids);
+    void deselectIngredients(String ingredientId);
 }

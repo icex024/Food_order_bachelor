@@ -71,6 +71,9 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "deliverer",fetch =  FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Order> ordersForDeliverer = new HashSet<>();
 
+    @OneToMany(mappedBy = "manager",fetch = FetchType.LAZY,cascade =CascadeType.ALL)
+    private Set<MessageForAdmin> messagesForAdmin = new HashSet<>();
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));

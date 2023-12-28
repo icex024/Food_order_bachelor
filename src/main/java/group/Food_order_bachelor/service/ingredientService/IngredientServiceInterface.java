@@ -11,5 +11,5 @@ public interface IngredientServiceInterface {
     void CreateNewIngredient(CreateIngredientDto dto);
     List<IngredientToShowDto> getAllIngredients();
     Set<Ingredient> getIngredientsByIds(List<String> ids);
-
+    void deleteIngredient(String ingredientId);
 }

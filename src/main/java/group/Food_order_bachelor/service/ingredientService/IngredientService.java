@@ -6,6 +6,8 @@ import group.Food_order_bachelor.dto.ingredient.IngredientToShowDto;
 import group.Food_order_bachelor.model.Ingredient;
 import group.Food_order_bachelor.repository.IngredientRepository;
 import group.Food_order_bachelor.service.allergenService.AllergenService;
+import jakarta.persistence.EntityManager;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -17,6 +19,7 @@ public class IngredientService implements IngredientServiceInterface {
     private final AllergenService allergenService;
     private final IngredientAdapter ingredientAdapter = new IngredientAdapter();
     private final IngredientRepository ingredientRepository;
+    private final EntityManager entityManager;
     @Override
     public void CreateNewIngredient(CreateIngredientDto dto) {
         ingredientRepository.save(ingredientAdapter
@@ -41,5 +44,22 @@ public class IngredientService implements IngredientServiceInterface {
             uuids.add(UUID.fromString(id));
         }
         return new HashSet<>(ingredientRepository.findAllById(uuids));
+    }
+
+    @Override
+    @Transactional
+    public void deleteIngredient(String ingredientId) {
+        deselectIngredientFromFoods(ingredientRepository.getReferenceById(UUID.fromString(ingredientId)));
+        entityManager.createQuery("delete from Ingredient i where i.id = ?1")
+                .setParameter(1,UUID.fromString(ingredientId)).executeUpdate();
+    }
+
+    private void deselectIngredientFromFoods(Ingredient ingredient){
+        for(var food:ingredient.getFoods()){
+            System.out.println(food);
+            food.getIngredients().remove(ingredient);
+            System.out.println(food);
+        }
+        ingredientRepository.save(ingredient);
     }
 }

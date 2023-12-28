@@ -10,4 +10,5 @@ public interface AllergenServiceInterface {
     void createNewAllergen(String name);
     List<AllergenDto> getAllergens();
     Set<Allergen> getAllergensByIds(List<String> ids);
+    void deleteAllergen(String allergenId);
 }
