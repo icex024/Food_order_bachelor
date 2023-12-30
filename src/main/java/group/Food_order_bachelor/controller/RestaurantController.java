@@ -4,6 +4,7 @@ import group.Food_order_bachelor.dto.restaurant.CreateRestaurantDto;
 import group.Food_order_bachelor.dto.restaurant.GetRestaurantByIdDto;
 import group.Food_order_bachelor.dto.restaurant.RestaurantPreviewDto;
 import group.Food_order_bachelor.dto.restaurant.ViewOrdersDriverDto;
+import group.Food_order_bachelor.service.imageService.ImageService;
 import group.Food_order_bachelor.service.restaurantService.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +17,12 @@ import java.util.UUID;
 @RequiredArgsConstructor
 public class RestaurantController {
     private final RestaurantService restaurantService;
+    private final ImageService imageService;
 
     @PostMapping("/create-restaurant")
     @CrossOrigin("http://localhost:3000")
     public void createRestaurant(@RequestBody CreateRestaurantDto dto){
-        restaurantService.createRestaurant(dto);
+        restaurantService.createRestaurant(dto,imageService.getImageById(dto.getImageId()));
     }
 
     @PutMapping("/edit-restaurant-manager")

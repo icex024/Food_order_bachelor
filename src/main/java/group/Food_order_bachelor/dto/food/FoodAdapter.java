@@ -5,6 +5,7 @@ import group.Food_order_bachelor.model.Food;
 import group.Food_order_bachelor.model.Ingredient;
 import group.Food_order_bachelor.model.Menu;
 import lombok.NoArgsConstructor;
+import org.springframework.core.io.ByteArrayResource;
 
 import javax.swing.text.View;
 import java.util.ArrayList;
@@ -27,10 +28,18 @@ public class FoodAdapter {
              food.getIngredients()) {
             ingredients.add(ingredient.getId().toString());
         }
-        return ViewFoodDto.builder().id(food.getId().toString()).name(food.getName()).description(food.getDescription())
-                .estimatedTime(food.getEstimatedTimeForPreparationInMinutes()).foodType(food.getFoodType().name())
-                .menuId(food.getMenu().getId().toString()).meatFree(food.isMeatFree()).price(food.getPrice())
-                .ingredients(ingredients).build();
+        return ViewFoodDto.builder()
+                .id(food.getId().toString())
+                .name(food.getName())
+                .description(food.getDescription())
+                .estimatedTime(food.getEstimatedTimeForPreparationInMinutes())
+                .foodType(food.getFoodType().name())
+                .menuId(food.getMenu().getId().toString())
+                .meatFree(food.isMeatFree())
+                .price(food.getPrice())
+                .ingredients(ingredients)
+                .image(new ByteArrayResource(food.getImageFood().getData()))
+                .build();
     }
 
 }

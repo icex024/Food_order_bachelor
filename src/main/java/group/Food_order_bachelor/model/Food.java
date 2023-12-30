@@ -5,6 +5,11 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
+import org.hibernate.annotations.JdbcType;
+import org.hibernate.annotations.Type;
+import org.hibernate.type.descriptor.jdbc.BinaryJdbcType;
+import org.hibernate.type.descriptor.jdbc.VarbinaryJdbcType;
+import org.springframework.data.util.QTypeContributor;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -46,6 +51,10 @@ public class Food {
 
     @Column
     private double price;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image imageFood;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "menu_id",nullable = true)

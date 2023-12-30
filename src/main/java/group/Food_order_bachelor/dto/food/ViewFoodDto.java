@@ -1,6 +1,7 @@
 package group.Food_order_bachelor.dto.food;
 
 import lombok.*;
+import org.springframework.core.io.Resource;
 
 import java.util.List;
 
@@ -19,4 +20,5 @@ public class ViewFoodDto {
     private boolean meatFree;
     private double price;
     private String menuId;
+    private Resource image;
 }

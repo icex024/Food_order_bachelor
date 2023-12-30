@@ -2,6 +2,7 @@ package group.Food_order_bachelor.service.restaurantService;
 
 import group.Food_order_bachelor.dto.restaurant.*;
 import group.Food_order_bachelor.enums.Order_status;
+import group.Food_order_bachelor.model.Image;
 import group.Food_order_bachelor.model.Restaurant;
 import group.Food_order_bachelor.repository.RestaurantRepository;
 import lombok.RequiredArgsConstructor;
@@ -22,8 +23,8 @@ public class RestaurantService implements RestaurantServiceInterface {
     }
 
     @Override
-    public void createRestaurant(CreateRestaurantDto dto) {
-        restaurantRepository.save(restaurantAdapter.createRestaurantDtoToRestaurant(dto));
+    public void createRestaurant(CreateRestaurantDto dto, Image image) {
+        restaurantRepository.save(restaurantAdapter.createRestaurantDtoToRestaurant(dto,image));
     }
 
     @Override

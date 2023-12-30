@@ -3,6 +3,7 @@ package group.Food_order_bachelor.dto.restaurant;
 import group.Food_order_bachelor.model.*;
 import lombok.NoArgsConstructor;
 import org.apache.catalina.Manager;
+import org.springframework.core.io.ByteArrayResource;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,17 +12,30 @@ import java.util.UUID;
 
 @NoArgsConstructor
 public class RestaurantAdapter {
-    public Restaurant createRestaurantDtoToRestaurant(CreateRestaurantDto dto){
-        return Restaurant.builder().id(UUID.randomUUID()).name(dto.getName()).description(dto.getDescription())
-                .streetName(dto.getStreetName()).streetNumber(dto.getStreetNumber()).city(dto.getCity())
-                .country(dto.getCountry()).workTimeStart(dto.getWorkTimeStart()).workTimeEnd(dto.getWorkTimeEnd())
+    public Restaurant createRestaurantDtoToRestaurant(CreateRestaurantDto dto,Image image){
+        return Restaurant.builder()
+                .id(UUID.randomUUID())
+                .name(dto.getName())
+                .description(dto.getDescription())
+                .streetName(dto.getStreetName())
+                .streetNumber(dto.getStreetNumber())
+                .city(dto.getCity())
+                .country(dto.getCountry())
+                .workTimeStart(dto.getWorkTimeStart())
+                .workTimeEnd(dto.getWorkTimeEnd())
+                .imageRestaurant(image)
                 .build();
     }
 
     public RestaurantPreviewDto restaurantToRestaurantPreviewDto(Restaurant restaurant){
-        return RestaurantPreviewDto.builder().id(restaurant.getId().toString()).description(restaurant.getDescription())
-                .name(restaurant.getName()).workTimeEnd(restaurant.getWorkTimeEnd())
-                .workTimeStart(restaurant.getWorkTimeStart()).build();
+        return RestaurantPreviewDto.builder()
+                .id(restaurant.getId().toString())
+                .description(restaurant.getDescription())
+                .name(restaurant.getName())
+                .workTimeEnd(restaurant.getWorkTimeEnd())
+                .workTimeStart(restaurant.getWorkTimeStart())
+                .image(new ByteArrayResource(restaurant.getImageRestaurant().getData()))
+                .build();
     }
 
     public GetRestaurantByIdDto restaurantToGetRestaurantByIdDto(Restaurant restaurant){
@@ -29,19 +43,34 @@ public class RestaurantAdapter {
         List<String> driverIds = drivers(restaurant.getDrivers());
         List<String> menuIds = menus(restaurant.getMenus());
         List<String> loyaltiesIds = loyalties(restaurant.getLoyaltyDefinitions());
-        return GetRestaurantByIdDto.builder().id(restaurant.getId().toString()).name(restaurant.getName())
-                .description(restaurant.getDescription()).menuIds(menuIds).streetName(restaurant.getStreetName())
-                .streetNumber(restaurant.getStreetNumber()).city(restaurant.getCity()).country(restaurant.getCountry())
-                .managerIds(managerIds).driverIds(driverIds).workTimeEnd(restaurant.getWorkTimeEnd())
-                .workTimeStart(restaurant.getWorkTimeStart()).loyaltyDefinitionIds(loyaltiesIds)
+        return GetRestaurantByIdDto.builder()
+                .id(restaurant.getId().toString())
+                .name(restaurant.getName())
+                .description(restaurant.getDescription())
+                .menuIds(menuIds)
+                .streetName(restaurant.getStreetName())
+                .streetNumber(restaurant.getStreetNumber())
+                .city(restaurant.getCity())
+                .country(restaurant.getCountry())
+                .managerIds(managerIds)
+                .driverIds(driverIds)
+                .workTimeEnd(restaurant.getWorkTimeEnd())
+                .workTimeStart(restaurant.getWorkTimeStart())
+                .loyaltyDefinitionIds(loyaltiesIds)
                 .build();
     }
 
     public ViewOrdersDriverDto OrderToViewOrdersDriverDto(Order order){
-        return ViewOrdersDriverDto.builder().id(order.getId().toString()).foodIds(foodIds(order.getFoods()))
-                .city(order.getUser().getCity()).streetName(order.getUser().getStreetName())
-                .streetNumber(order.getUser().getStreetNumber()).price(order.getPrice()).note(order.getNote())
-                .paymentType(order.getPaymentType().toString()).build();
+        return ViewOrdersDriverDto.builder()
+                .id(order.getId().toString())
+                .foodIds(foodIds(order.getFoods()))
+                .city(order.getUser().getCity())
+                .streetName(order.getUser().getStreetName())
+                .streetNumber(order.getUser().getStreetNumber())
+                .price(order.getPrice())
+                .note(order.getNote())
+                .paymentType(order.getPaymentType().toString())
+                .build();
     }
 
     private List<String> foodIds(List<Food> foods){

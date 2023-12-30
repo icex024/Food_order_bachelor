@@ -73,6 +73,8 @@ public class SecurityConfiguration {
                         .requestMatchers("api/v1/message-for-admin/get-messages").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("api/v1/message-for-admin/review-message").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("api/v1/ingredient/delete-ingredient").hasAuthority(User_role.ADMIN.name())
+                        .requestMatchers("api/v1/image/upload-image").permitAll()
+                        .requestMatchers("api/v1/image/get-image-test").permitAll()
                         .requestMatchers("/api/v1/restaurant/get-restaurant").permitAll()
                         .requestMatchers("ws/**").permitAll()
                         .requestMatchers("/app/application").permitAll()
