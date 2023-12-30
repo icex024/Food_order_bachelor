@@ -29,7 +29,7 @@ public class JwtService implements JwtServiceInterface{
     @Override
     public String generateToken(UserDetails userDetails) {
         HashMap<String,Object> claims = new HashMap<>();
-        claims.put("Roles",userDetails.getAuthorities());
+        claims.put("Authorities",userDetails.getAuthorities());
         return generateToken(claims,userDetails);
     }
 

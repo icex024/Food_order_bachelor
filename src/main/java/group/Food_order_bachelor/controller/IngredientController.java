@@ -27,4 +27,10 @@ public class IngredientController {
     public List<IngredientToShowDto> getAllIngredients(){
         return ingredientService.getAllIngredients();
     }
+
+    @DeleteMapping("/delete-ingredient")
+    @CrossOrigin("http://localhost:3000")
+    public void deleteIngredient(@RequestParam String ingredientId){
+        ingredientService.deleteIngredient(ingredientId);
+    }
 }

@@ -20,4 +20,5 @@ public class CreateFoodDto {
     private boolean meatFree;
     private double price;
     private String menuId;
+    private String imageId;
 }

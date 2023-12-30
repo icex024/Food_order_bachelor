@@ -16,4 +16,5 @@ public class CreateRestaurantDto {
     private String country;
     private String workTimeStart;
     private String workTimeEnd;
+    private String imageId;
 }

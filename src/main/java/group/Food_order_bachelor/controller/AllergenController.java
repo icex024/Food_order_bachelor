@@ -26,4 +26,10 @@ public class AllergenController {
     public ResponseEntity<List<AllergenDto>> getAllergens(){
         return ResponseEntity.ok(allergenService.getAllergens());
     }
+
+    @DeleteMapping("/delete-allergen")
+    @CrossOrigin("http://localhost:3000")
+    public void deleteAllergen(@RequestParam String allergenId){
+        allergenService.deleteAllergen(allergenId);
+    }
 }

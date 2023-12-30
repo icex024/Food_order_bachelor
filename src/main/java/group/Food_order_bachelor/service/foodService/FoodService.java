@@ -6,6 +6,7 @@ import group.Food_order_bachelor.dto.food.FoodPriceDto;
 import group.Food_order_bachelor.dto.food.ViewFoodDto;
 import group.Food_order_bachelor.dto.food.AddOrChangeFoodFromMenuDto;
 import group.Food_order_bachelor.model.Food;
+import group.Food_order_bachelor.model.Image;
 import group.Food_order_bachelor.repository.FoodRepository;
 import group.Food_order_bachelor.service.ingredientService.IngredientService;
 import group.Food_order_bachelor.service.menuService.MenuService;
@@ -26,7 +27,7 @@ public class FoodService implements FoodServiceInterface {
     private final IngredientService ingredientService;
     private final FoodAdapter foodAdapter = new FoodAdapter();
     @Override
-    public void createFood(CreateFoodDto dto) {
+    public void createFood(CreateFoodDto dto, Image image) {
         foodRepository.save(foodAdapter.createFoodDtoToFood(dto,menuService.getMenuByIdString(dto.getMenuId())
                 ,ingredientService.getIngredientsByIds(dto.getIngredients())));
     }
@@ -86,6 +87,11 @@ public class FoodService implements FoodServiceInterface {
             foods.add(foodRepository.getReferenceById(UUID.fromString(id)));
         }
         return foods;
+    }
+
+    @Override
+    public void deselectIngredients(String ingredientId) {
+
     }
 
 

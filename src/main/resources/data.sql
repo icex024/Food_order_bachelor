@@ -160,5 +160,8 @@ insert into registered_users (id,email,username,password,firstname,lastname,city
 values ('b518556a-d40d-484c-b03b-9aadc3bb42e3','2@gmail.com','driver','$2a$12$KxTetvzx85WbgDoG6sv1auzTJAmcHsm9Ml1uxbHOuWtsVawqjeQ0y'
        ,'driver','','','','','DELIVERER','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','f0db81e0-b9fd-4425-ae55-78ea886ee4b5',0.0,0.0);
 
+insert into messages_for_admin(id,messageforadminstatus,manager_id,content)
+values ('dbb23b59-3541-476f-a44e-bedca8794dbf','NOT_REVIEWED','e6dbd222-3ad2-4b62-bcad-347aa6210343','jedan lagan test')
+
 -- insert into loyalties(id,loyalty_definition_id,restaurant_id,user_id,number_of_orders)
 -- values ('e7055fdf-6910-401f-b7ae-7cbb15d6097d','713186d8-2b26-49b0-be2a-3308fe33d3d7','0f2fc991-b9fb-4aa7-8951-5965ec0cebb8','a4a01b84-969e-11ee-b9d1-0242ac120002',6);

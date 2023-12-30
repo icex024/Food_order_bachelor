@@ -5,6 +5,7 @@ import group.Food_order_bachelor.dto.food.FoodPriceDto;
 import group.Food_order_bachelor.dto.food.ViewFoodDto;
 import group.Food_order_bachelor.dto.food.AddOrChangeFoodFromMenuDto;
 import group.Food_order_bachelor.service.foodService.FoodService;
+import group.Food_order_bachelor.service.imageService.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +17,12 @@ import java.util.List;
 public class FoodController {
 
     private final FoodService foodService;
+    private final ImageService imageService;
 
     @PostMapping("/create-food")
     @CrossOrigin("http://localhost:3000")
     public void createNewFood(@RequestBody CreateFoodDto dto){
-        foodService.createFood(dto);
+        foodService.createFood(dto,imageService.getImageById(dto.getImageId()));
     }
 
     @DeleteMapping("/delete-food")

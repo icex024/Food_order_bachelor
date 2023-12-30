@@ -70,4 +70,8 @@ public class Restaurant {
 
     @Column
     private double longitude;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "image_id", referencedColumnName = "id")
+    private Image imageRestaurant;
 }
