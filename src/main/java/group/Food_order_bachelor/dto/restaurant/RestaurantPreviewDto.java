@@ -14,5 +14,6 @@ public class RestaurantPreviewDto {
     private String description;
     private String workTimeStart;
     private String workTimeEnd;
-    private Resource image;
+    private byte[] image;
+    private boolean visibility;
 }

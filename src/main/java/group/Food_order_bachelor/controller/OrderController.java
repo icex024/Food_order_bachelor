@@ -4,6 +4,7 @@ import com.stripe.exception.StripeException;
 import com.stripe.model.PaymentIntent;
 import com.stripe.param.PaymentIntentCreateParams;
 import group.Food_order_bachelor.dto.coordinates.Coordinates;
+import group.Food_order_bachelor.dto.food.FoodStatisticsDto;
 import group.Food_order_bachelor.dto.order.*;
 import group.Food_order_bachelor.enums.Order_status;
 import group.Food_order_bachelor.enums.Payment_type;
@@ -11,10 +12,12 @@ import group.Food_order_bachelor.service.foodService.FoodService;
 import group.Food_order_bachelor.service.loyaltyService.LoyaltyService;
 import group.Food_order_bachelor.service.openRouteService.OpenRouteService;
 import group.Food_order_bachelor.service.orderService.OrderService;
+import group.Food_order_bachelor.service.restaurantService.RestaurantService;
 import group.Food_order_bachelor.service.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,6 +30,7 @@ public class OrderController {
     private final FoodService foodService;
     private final LoyaltyService loyaltyService;
     private final OpenRouteService openRouteService;
+    private final RestaurantService restaurantService;
 
     @PostMapping("/create-order")
     @CrossOrigin("http://localhost:3000")
@@ -74,11 +78,12 @@ public class OrderController {
     @PostMapping("/start-all-deliveries")
     @CrossOrigin("http://localhost:3000")
     public void startAllDeliveries(@RequestBody StartAllDeliveriesDto dto){
-        orderService.startAllDeliveries(
-                openRouteService.getRoute(
-                        Coordinates.builder().lat(dto.getLatitudeStart()).lng(dto.getLongitudeStart()).build(),
-                        Coordinates.builder().lat(dto.getLatitudeFinish()).lng(dto.getLongitudeFinish()).build())
-                        , dto);
+//        orderService.startAllDeliveries(
+//                openRouteService.getRoute(
+//                        Coordinates.builder().lat(dto.getLatitudeStart()).lng(dto.getLongitudeStart()).build(),
+//                        Coordinates.builder().lat(dto.getLatitudeFinish()).lng(dto.getLongitudeFinish()).build())
+//                        , dto);
+        orderService.startAllDeliveries(dto);
     }
 
     @PostMapping("/start-delivery")
@@ -104,20 +109,21 @@ public class OrderController {
 
     @GetMapping("/get-orders-for-customer-initial")
     @CrossOrigin("http://localhost:3000")
-    public List<ViewOrderDto> getOrdersForCustomerInitial(@RequestBody GetOrdersForCustomerDto dto){
-        return orderService.viewOrdersForCustomerInitialState(dto);
+    public List<ViewOrderDto> getOrdersForCustomerInitial(@RequestParam String customerId){
+        return orderService.viewOrdersForCustomerInitialState(customerId);
     }
 
     @GetMapping("/get-orders-for-customer-history")
     @CrossOrigin("http://localhost:3000")
-    public List<ViewOrderDto> getOrdersForCustomerHistory(@RequestBody GetOrdersForCustomerDto dto){
-        return orderService.viewOrdersForCustomerHistory(dto);
+    public List<ViewOrderDto> getOrdersForCustomerHistory(@RequestParam String customerId){
+        return orderService.viewOrdersForCustomerHistory(customerId);
     }
 
     @GetMapping("/get-orders-for-deliverer-initial")
     @CrossOrigin("http://localhost:3000")
-    public List<ViewOrderDto> getOrdersForDelivererInitial(@RequestParam String restaurantId){
-        return orderService.getOrdersForDelivererInitial(restaurantId);
+    public List<ViewOrderDto> getOrdersForDelivererInitial(@RequestParam String delivererId){
+        return orderService.getOrdersForDelivererInitial(userService.getUserById(UUID.fromString(delivererId))
+                .getRestaurant().getId().toString());
     }
 
     @GetMapping("/get-orders-for-deliverer-taken")
@@ -142,5 +148,15 @@ public class OrderController {
     @CrossOrigin("http://localhost:3000")
     public List<ViewOrderDto> getOrdersForRestaurantHistory(@RequestParam String restaurantId){
         return orderService.getOrdersForRestaurantHistory(restaurantId);
+    }
+
+    @GetMapping("/get-food-statistics")
+    @CrossOrigin("http://localhost:3000")
+    public List<FoodStatisticsDto> getFoodStatistics(@RequestParam String managerId,@RequestParam String date){
+        var restaurant = restaurantService.getRestaurantByManagerId(UUID.fromString(managerId));
+        return orderService.setProperValuesForFoodStatisticsDto(
+                foodService.getFoodsForStatistics(restaurant.getMenus(),date)
+                ,restaurant.getId()
+                ,LocalDateTime.parse(date));
     }
 }

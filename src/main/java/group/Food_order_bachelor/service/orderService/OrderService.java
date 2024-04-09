@@ -1,11 +1,13 @@
 package group.Food_order_bachelor.service.orderService;
 
 import group.Food_order_bachelor.dto.coordinates.Coordinates;
+import group.Food_order_bachelor.dto.food.FoodStatisticsDto;
 import group.Food_order_bachelor.dto.order.*;
 import group.Food_order_bachelor.enums.Loyalty_type;
 import group.Food_order_bachelor.enums.Order_status;
 import group.Food_order_bachelor.model.*;
 import group.Food_order_bachelor.repository.OrderRepository;
+import group.Food_order_bachelor.repository.RestaurantRepository;
 import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.amqp.core.*;
@@ -13,6 +15,7 @@ import org.springframework.amqp.core.Queue;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.*;
 import java.util.concurrent.Executor;
@@ -69,8 +72,8 @@ public class OrderService implements OrderServiceInterface {
     }
 
     @Override
-    public void startAllDeliveries(List<Coordinates> route, StartAllDeliveriesDto dto) {
-        sendRoute(dto.getDelivererId(),route);
+    public void startAllDeliveries( StartAllDeliveriesDto dto) {
+//        sendRoute(dto.getDelivererId(),route);
         for(var orderId:dto.getOrderIds()){
             changeOrderStatus(orderId,Order_status.IN_DELIVERY);
         }
@@ -82,17 +85,14 @@ public class OrderService implements OrderServiceInterface {
     }
 
     @Override
-    public List<ViewOrderDto> viewOrdersForCustomerInitialState(GetOrdersForCustomerDto dto) {
-        return getOrdersForView(orderRepository.getOrdersByCustomerAndRestaurantInitialState(
-                UUID.fromString(dto.getCustomerId())
-                ,UUID.fromString(dto.getRestaurantId())));
+    public List<ViewOrderDto> viewOrdersForCustomerInitialState(String customerId) {
+        return getOrdersForView(orderRepository.getOrdersByCustomerAndRestaurantInitialState(UUID.fromString(customerId)));
     }
 
     @Override
-    public List<ViewOrderDto> viewOrdersForCustomerHistory(GetOrdersForCustomerDto dto) {
+    public List<ViewOrderDto> viewOrdersForCustomerHistory(String customerId) {
         return getOrdersForView(orderRepository.getOrdersByCustomerAndRestaurantHistory(
-                UUID.fromString(dto.getCustomerId())
-                ,UUID.fromString(dto.getRestaurantId())));
+                UUID.fromString(customerId)));
     }
 
     @Override
@@ -120,8 +120,27 @@ public class OrderService implements OrderServiceInterface {
         return getOrdersForView(orderRepository.getOrdersForRestaurantHistory(UUID.fromString(restaurantId)));
     }
 
+    @Override
+    public List<FoodStatisticsDto> setProperValuesForFoodStatisticsDto(List<FoodStatisticsDto> dtos,UUID restaurantId, LocalDateTime date) {
+        List<Order> orders = orderRepository.getOrdersByRestaurantId(restaurantId);
+        for(var dto: dtos){
+            for(var order : orders){
+                if(order.getTimeOfMakingOrder().getYear() == date.getYear()
+                        && order.getTimeOfMakingOrder().getMonth() == date.getMonth()){
+                    for(var food: order.getFoods()){
+                        if(food.getId().equals(UUID.fromString(dto.getId()))){
+                            dto.setNumberOfOrders(dto.getNumberOfOrders()+1);
+                        }
+                    }
+                }
+            }
+        }
+        return dtos;
+    }
+
     private List<ViewOrderDto> getOrdersForView(Set<Order> orders){
         List<ViewOrderDto> list = new ArrayList<>();
+
         for (var order : orders){
             list.add(orderAdapter.orderToViewOrderDto(order));
         }

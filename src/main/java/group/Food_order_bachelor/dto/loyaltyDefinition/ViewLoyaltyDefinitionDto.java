@@ -4,13 +4,16 @@ import lombok.*;
 
 @Getter
 @Setter
-@Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class CreateLoyaltyDefinitionDto {
-    private String managerId;//manager id!!!
+@Builder
+public class ViewLoyaltyDefinitionDto {
+    private String id;
+    private String restaurantId;
     private int threshold;
     private boolean reset;
+    private String type;
     private int discountInPercentage;
-    private String freeDrink;
+    private String freeDrinkName;
+    private String freeDrinkId;
 }

@@ -74,4 +74,7 @@ public class Restaurant {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")
     private Image imageRestaurant;
+
+    @Column(name="isrestaurantvisible")
+    private boolean isRestaurantVisible;
 }

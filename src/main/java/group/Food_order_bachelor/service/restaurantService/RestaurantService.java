@@ -52,4 +52,29 @@ public class RestaurantService implements RestaurantServiceInterface {
         }
         return dtos;
     }
+
+    @Override
+    public void editRestaurant(EditRestaurantManagerDto dto) {
+        var restaurant = restaurantRepository.getReferenceById(UUID.fromString(dto.getId()));
+        restaurantRepository.saveAndFlush(restaurantAdapter.editRestaurant(restaurant,dto));
+    }
+
+    @Override
+    public void changeRestaurantStatus(EditRestaurantStatusDto dto) {
+        var restaurant = restaurantRepository.getReferenceById(UUID.fromString(dto.getId()));
+        restaurant.setRestaurantVisible(dto.isVisibility());
+        restaurantRepository.saveAndFlush(restaurant);
+    }
+
+    @Override
+    public Restaurant getRestaurantByManagerId(UUID managerId) {
+        for(var restaurant : restaurantRepository.findAll()){
+            for(var manager:restaurant.getManagers()){
+                if(manager.getId().equals(managerId)){
+                    return restaurant;
+                }
+            }
+        }
+        return null;
+    }
 }

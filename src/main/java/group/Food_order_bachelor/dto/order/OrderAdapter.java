@@ -40,6 +40,8 @@ public class OrderAdapter {
                 .estimatedTime(order.getEstimatedTime())
                 .status(order.getStatus())
                 .delivererId(setDelivererId(order.getDeliverer()))
+                .restaurantName(order.getRestaurant().getName())
+                .address(order.getUser().getStreetName()+" "+order.getUser().getStreetNumber()+","+order.getUser().getCity())
                 .build();
     }
 

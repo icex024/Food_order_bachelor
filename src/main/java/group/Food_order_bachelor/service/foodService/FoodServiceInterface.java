@@ -1,11 +1,10 @@
 package group.Food_order_bachelor.service.foodService;
 
-import group.Food_order_bachelor.dto.food.CreateFoodDto;
-import group.Food_order_bachelor.dto.food.FoodPriceDto;
-import group.Food_order_bachelor.dto.food.ViewFoodDto;
-import group.Food_order_bachelor.dto.food.AddOrChangeFoodFromMenuDto;
+import group.Food_order_bachelor.dto.food.*;
+import group.Food_order_bachelor.dto.menu.MenuToShowDto;
 import group.Food_order_bachelor.model.Food;
 import group.Food_order_bachelor.model.Image;
+import group.Food_order_bachelor.model.Menu;
 
 import java.util.List;
 import java.util.Set;
@@ -23,4 +22,8 @@ public interface FoodServiceInterface {
     void deselectMenuFromFood(String menuId);
     List<Food> getFoodsByIds(List<String> ids);
     void deselectIngredients(String ingredientId);
+    List<FoodStatisticsDto> getFoodsForStatistics(Set<Menu> menus,String date);
+    List<FoodForLoyaltyDto> getDrinksForStatistics(Set<Menu> menus);
+    List<ViewFoodDto>  getFoodsByMenuDto(List<MenuToShowDto> dtos);
+    List<ViewFoodDto>  getFoodsByMenus(Set<Menu> menus);
 }

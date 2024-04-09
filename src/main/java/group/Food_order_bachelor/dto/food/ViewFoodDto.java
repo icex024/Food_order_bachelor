@@ -3,6 +3,7 @@ package group.Food_order_bachelor.dto.food;
 import lombok.*;
 import org.springframework.core.io.Resource;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @Getter
@@ -20,5 +21,5 @@ public class ViewFoodDto {
     private boolean meatFree;
     private double price;
     private String menuId;
-    private Resource image;
+    private byte[] image;
 }

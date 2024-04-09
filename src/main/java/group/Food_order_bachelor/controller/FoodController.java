@@ -1,15 +1,16 @@
 package group.Food_order_bachelor.controller;
 
-import group.Food_order_bachelor.dto.food.CreateFoodDto;
-import group.Food_order_bachelor.dto.food.FoodPriceDto;
-import group.Food_order_bachelor.dto.food.ViewFoodDto;
-import group.Food_order_bachelor.dto.food.AddOrChangeFoodFromMenuDto;
+import group.Food_order_bachelor.dto.food.*;
 import group.Food_order_bachelor.service.foodService.FoodService;
 import group.Food_order_bachelor.service.imageService.ImageService;
+import group.Food_order_bachelor.service.menuService.MenuService;
+import group.Food_order_bachelor.service.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/v1/food")
@@ -18,11 +19,14 @@ public class FoodController {
 
     private final FoodService foodService;
     private final ImageService imageService;
+    private final UserService userService;
+    private final MenuService menuService;
 
     @PostMapping("/create-food")
     @CrossOrigin("http://localhost:3000")
-    public void createNewFood(@RequestBody CreateFoodDto dto){
-        foodService.createFood(dto,imageService.getImageById(dto.getImageId()));
+    public void createNewFood(@RequestPart CreateFoodDto dto,@RequestPart MultipartFile image){
+        var imageId = imageService.buildImager(image);
+        foodService.createFood(dto,imageService.getImageById(imageId));
     }
 
     @DeleteMapping("/delete-food")
@@ -43,6 +47,18 @@ public class FoodController {
         return foodService.getFoodsByMenuId(id);
     }
 
+    @GetMapping("/get-foods-by-restaurant-id")
+    @CrossOrigin("http://localhost:3000")
+    public List<ViewFoodDto> getFoodsByRestaurantId(@RequestParam String id) {
+        return foodService.getFoodsByMenuDto(menuService.getMenusForClientApp(id));
+    }
+
+    @GetMapping("/get-foods-by-user-id")
+    @CrossOrigin("http://localhost:3000")
+    public List<ViewFoodDto> getFoodsByUserId(@RequestParam String id) {
+        return foodService.getFoodsByMenus(userService.getUserById(UUID.fromString(id)).getRestaurant().getMenus());
+    }
+
     @PatchMapping("/add-food-to-menu")
     @CrossOrigin("http://localhost:3000")
     public void addFoodToMenu(@RequestBody AddOrChangeFoodFromMenuDto dto){
@@ -59,5 +75,12 @@ public class FoodController {
     @CrossOrigin("http://localhost:3000")
     public void changeMenu(@RequestBody AddOrChangeFoodFromMenuDto dto){
         foodService.changeMenuForFood(dto);
+    }
+
+    @GetMapping("/fetch-drinks-for-loyalty")
+    @CrossOrigin("http://localhost:3000")
+    public List<FoodForLoyaltyDto> getFoodForLoyalty(@RequestParam String managerId){
+        return foodService.getDrinksForStatistics(
+                userService.getUserById(UUID.fromString(managerId)).getRestaurant().getMenus());
     }
 }

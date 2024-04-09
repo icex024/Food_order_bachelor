@@ -1,13 +1,11 @@
 package group.Food_order_bachelor.controller;
 
-import group.Food_order_bachelor.dto.restaurant.CreateRestaurantDto;
-import group.Food_order_bachelor.dto.restaurant.GetRestaurantByIdDto;
-import group.Food_order_bachelor.dto.restaurant.RestaurantPreviewDto;
-import group.Food_order_bachelor.dto.restaurant.ViewOrdersDriverDto;
+import group.Food_order_bachelor.dto.restaurant.*;
 import group.Food_order_bachelor.service.imageService.ImageService;
 import group.Food_order_bachelor.service.restaurantService.RestaurantService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.UUID;
@@ -21,26 +19,29 @@ public class RestaurantController {
 
     @PostMapping("/create-restaurant")
     @CrossOrigin("http://localhost:3000")
-    public void createRestaurant(@RequestBody CreateRestaurantDto dto){
-        restaurantService.createRestaurant(dto,imageService.getImageById(dto.getImageId()));
+    public void createRestaurant(@RequestPart CreateRestaurantDto dto,@RequestPart MultipartFile image){
+        var imageId = imageService.buildImager(image);
+        restaurantService.createRestaurant(dto,imageService.getImageById(imageId));
     }
 
-    @PutMapping("/edit-restaurant-manager")
+    @PutMapping("/edit-restaurant")
     @CrossOrigin("http://localhost:3000")
-    public void editRestaurantManager(){
-
+    public void editRestaurantManager(@RequestBody EditRestaurantManagerDto dto){
+        restaurantService.editRestaurant(dto);
     }
 
-    @PatchMapping("/edit-restaurant-admin")
+    @PatchMapping("/change-restaurant-status")
     @CrossOrigin("http://localhost:3000")
-    public void editRestaurantAdmin(){
-
+    public void editRestaurantAdmin(@RequestBody EditRestaurantStatusDto dto){
+        restaurantService.changeRestaurantStatus(dto);
     }
 
     @GetMapping("/get-restaurants")
     @CrossOrigin("http://localhost:3000")
     public List<RestaurantPreviewDto> getRestaurants(){
-        return restaurantService.getRestaurantsForPreview();
+        var restaurants = restaurantService.getRestaurantsForPreview();
+
+        return restaurants;
     }
 
     @GetMapping("/get-restaurant")
@@ -54,4 +55,6 @@ public class RestaurantController {
     public List<ViewOrdersDriverDto> getOrdersForDeliverer(@RequestParam String restaurantId){
         return restaurantService.viewReadyOrdersForDeliverer(restaurantId);
     }
+
+
 }

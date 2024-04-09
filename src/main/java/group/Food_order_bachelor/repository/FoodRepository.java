@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -19,9 +20,13 @@ public interface FoodRepository extends JpaRepository<Food, UUID> {
 
     @Modifying(clearAutomatically = true)
     @Query("select f From Food f where f.menu.id = :menu_id")
-    Set<Food> selectFoodsByMenuId(@Param(value="menu_id") UUID menu_id);
+    List<Food> selectFoodsByMenuId(@Param(value="menu_id") UUID menu_id);
 
     @Modifying(clearAutomatically = true)
     @Query("update Food as food set food.menu.id = null where food.menu.id = :menu_id")
     void updateMenuStatus(@Param(value="menu_id") UUID menu_id);
+
+    @Modifying(clearAutomatically = true)
+    @Query("select f From Food f where f.foodType = 'DRINK' and f.menu.id = :menu_id")
+    List<Food> selectDrinks(@Param(value = "menu_id") UUID menu_id);
 }

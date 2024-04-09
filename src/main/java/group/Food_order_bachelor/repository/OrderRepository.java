@@ -7,22 +7,21 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
 @Repository
 public interface OrderRepository extends JpaRepository<Order, UUID> {
     @Modifying(clearAutomatically = true)
-    @Query("select o From Order o where o.user.id = :customerId and o.restaurant.id = :restaurantId " +
+    @Query("select o From Order o where o.user.id = :customerId " +
             "and (o.status = 'PROCESS' OR o.status = 'READY' OR o.status = 'TAKEN_BY_DELIVERER' OR o.status = 'IN_DELIVERY')")
-    Set<Order> getOrdersByCustomerAndRestaurantInitialState(@Param(value = "customerId") UUID customerId
-            ,@Param("restaurantId") UUID restaurantId);
+    Set<Order> getOrdersByCustomerAndRestaurantInitialState(@Param(value = "customerId") UUID customerId);
 
     @Modifying(clearAutomatically = true)
-    @Query("select o from Order o where o.user.id = :customerId and o.restaurant.id = :restaurantId " +
+    @Query("select o from Order o where o.user.id = :customerId  " +
             "and (o.status = 'CANCELLED' OR o.status = 'DELIVERED')")
-    Set<Order> getOrdersByCustomerAndRestaurantHistory(@Param(value = "customerId") UUID customerId
-            ,@Param("restaurantId") UUID restaurantId);
+    Set<Order> getOrdersByCustomerAndRestaurantHistory(@Param(value = "customerId") UUID customerId);
 
     @Modifying(clearAutomatically = true)
     @Query("select o From Order o where o.restaurant.id = :restaurantId " +
@@ -48,4 +47,7 @@ public interface OrderRepository extends JpaRepository<Order, UUID> {
     @Query("select o From Order o where o.restaurant.id = :restaurantId " +
             "and (o.status = 'DELIVERED' and o.status = 'CANCELLED')")
     Set<Order> getOrdersForRestaurantHistory(@Param(value = "restaurantId") UUID restaurantId);
+
+    @Query("select o from Order o where o.restaurant.id = :restaurantId")
+    List<Order> getOrdersByRestaurantId(@Param(value = "restaurantId")UUID restaurantId);
 }

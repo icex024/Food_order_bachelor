@@ -20,4 +20,29 @@ public class LoyaltyDefinitionAdapter {
                 .loyaltyType(Loyalty_type.DISCOUNT).build();
     }
 
+    public ViewLoyaltyDefinitionDto loyaltyDefinitionToViewLoyaltyDefinitionDto(LoyaltyDefinition loyaltyDefinition){
+        return ViewLoyaltyDefinitionDto.builder()
+                .id(loyaltyDefinition.getId().toString())
+                .type(loyaltyDefinition.getLoyaltyType().name())
+                .freeDrinkId(checkIfFreeDrinkExist(loyaltyDefinition.getFreeDrink(),false))
+                .freeDrinkName(checkIfFreeDrinkExist(loyaltyDefinition.getFreeDrink(),true))
+                .restaurantId(loyaltyDefinition.getRestaurant().getId().toString())
+                .discountInPercentage(loyaltyDefinition.getDiscountInPercentage())
+                .reset(loyaltyDefinition.isReset())
+                .threshold(loyaltyDefinition.getThreshold())
+                .build();
+    }
+
+    private String checkIfFreeDrinkExist(Food freeDrink,Boolean name){
+        if(freeDrink == null){
+            return "";
+        }else{
+            if(name.equals(true)){
+                return freeDrink.getName();
+            }else{
+                return freeDrink.getId().toString();
+            }
+
+        }
+    }
 }

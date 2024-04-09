@@ -10,6 +10,17 @@ import java.util.UUID;
 @NoArgsConstructor
 public class MenuAdapter {
     public Menu createMenuDtoToMenu(CreateMenuDto dto, Restaurant restaurant){
-        return Menu.builder().id(UUID.randomUUID()).name(dto.getName()).restaurant(restaurant).build();
+        return Menu.builder()
+                .id(UUID.randomUUID())
+                .name(dto.getName())
+                .restaurant(restaurant)
+                .build();
+    }
+
+    public MenuToShowDto menuToMenuToShow(Menu menu){
+        return MenuToShowDto.builder()
+                .id(menu.getId().toString())
+                .name(menu.getName())
+                .build();
     }
 }

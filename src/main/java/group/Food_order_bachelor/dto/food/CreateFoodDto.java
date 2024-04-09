@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -20,5 +21,5 @@ public class CreateFoodDto {
     private boolean meatFree;
     private double price;
     private String menuId;
-    private String imageId;
+//    private MultipartFile image;
 }

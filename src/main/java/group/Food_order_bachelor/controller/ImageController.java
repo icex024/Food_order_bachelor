@@ -5,9 +5,11 @@ import group.Food_order_bachelor.service.imageService.ImageService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.core.io.Resource;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.net.http.HttpHeaders;
 import java.util.UUID;
 
 @RestController
@@ -27,6 +29,8 @@ public class ImageController {
     @CrossOrigin("http://localhost:3000")
     public Resource test(@RequestParam String id){
         var byteArray = imageRepository.getReferenceById(UUID.fromString(id)).getData();
+        org.springframework.http.HttpHeaders headers = new org.springframework.http.HttpHeaders();
+        headers.setContentType(MediaType.IMAGE_PNG);
         return new ByteArrayResource(byteArray);
     }
 }

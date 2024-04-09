@@ -21,4 +21,6 @@ public class ViewOrderDto {
     private int estimatedTime;
     private String status;
     private String delivererId;
+    private String restaurantName;
+    private String address;
 }

@@ -2,12 +2,12 @@ package group.Food_order_bachelor.dto.menu;
 
 import lombok.*;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Builder
 @Getter
 @Setter
-@NoArgsConstructor
-@AllArgsConstructor
-public class CreateMenuDto {
+public class MenuToShowDto {
+    private String id;
     private String name;
-    private String managerId;
 }

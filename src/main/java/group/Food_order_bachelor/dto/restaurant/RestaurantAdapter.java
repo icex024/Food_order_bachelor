@@ -34,7 +34,8 @@ public class RestaurantAdapter {
                 .name(restaurant.getName())
                 .workTimeEnd(restaurant.getWorkTimeEnd())
                 .workTimeStart(restaurant.getWorkTimeStart())
-                .image(new ByteArrayResource(restaurant.getImageRestaurant().getData()))
+                .image(checkImage(restaurant.getImageRestaurant()))
+                .visibility(restaurant.isRestaurantVisible())
                 .build();
     }
 
@@ -57,6 +58,9 @@ public class RestaurantAdapter {
                 .workTimeEnd(restaurant.getWorkTimeEnd())
                 .workTimeStart(restaurant.getWorkTimeStart())
                 .loyaltyDefinitionIds(loyaltiesIds)
+                .latitude(restaurant.getLatitude())
+                .longitude(restaurant.getLongitude())
+                .image(checkImage(restaurant.getImageRestaurant()))
                 .build();
     }
 
@@ -71,6 +75,20 @@ public class RestaurantAdapter {
                 .note(order.getNote())
                 .paymentType(order.getPaymentType().toString())
                 .build();
+    }
+
+    public Restaurant editRestaurant(Restaurant restaurant, EditRestaurantManagerDto dto){
+        restaurant.setName(dto.getName());
+        restaurant.setDescription(dto.getDescription());
+        restaurant.setStreetName(dto.getStreetName());
+        restaurant.setStreetNumber(dto.getStreetNumber());
+        restaurant.setCity(dto.getCity());
+        restaurant.setCountry(dto.getCountry());
+        restaurant.setWorkTimeStart(dto.getWorkTimeStart());
+        restaurant.setWorkTimeEnd(dto.getWorkTimeEnd());
+        restaurant.setLatitude(dto.getLatitude());
+        restaurant.setLongitude(dto.getLongitude());
+        return restaurant;
     }
 
     private List<String> foodIds(List<Food> foods){
@@ -113,4 +131,14 @@ public class RestaurantAdapter {
         }
         return ids;
     }
+
+    private byte[] checkImage(Image image){
+        if(image == null){
+            return null;
+        }else{
+            return image.getData();
+        }
+    }
+
+
 }

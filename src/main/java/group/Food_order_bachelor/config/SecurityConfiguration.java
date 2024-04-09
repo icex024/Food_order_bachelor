@@ -1,11 +1,14 @@
 package group.Food_order_bachelor.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import group.Food_order_bachelor.enums.User_role;
 import group.Food_order_bachelor.service.userService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.Customizer;
@@ -38,7 +41,7 @@ public class SecurityConfiguration {
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
         configuration.setAllowedOrigins(Arrays.asList("http://localhost:3000"));
-        configuration.setAllowedMethods(Arrays.asList("GET","POST","DELETE","PUT","PATCH","OPTIONS"));
+        configuration.setAllowedMethods(Arrays.asList("OPTIONS","GET","POST","DELETE","PUT","PATCH"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         source.registerCorsConfiguration("/api/v1/**", configuration);
         return source;
@@ -47,15 +50,20 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception{
         http.csrf(AbstractHttpConfigurer::disable).cors(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(request->request.requestMatchers("/api/v1/auth/**").permitAll()
+                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .requestMatchers("/api/v1/resource/**").hasAuthority(User_role.ADMIN.name())
-                        .requestMatchers("/api/v1/allergen/**").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("/api/v1/allergen/get-allergens").hasAnyAuthority(User_role.MANAGER.name(),User_role.CUSTOMER.name(),User_role.ADMIN.name())
+//                        .requestMatchers("/api/v1/allergen/**").permitAll()
                         .requestMatchers("/api/v1/ingredient").hasAuthority(User_role.MANAGER.name())
-                        .requestMatchers("/api/v1/food/**").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("/api/v1/food/**").hasAnyAuthority(User_role.MANAGER.name(),User_role.CUSTOMER.name(),User_role.DELIVERER.name())
+                        .requestMatchers("/api/v1/menu/get-menus").hasAnyAuthority(User_role.CUSTOMER.name()
+                                ,User_role.MANAGER.name(),User_role.ADMIN.name(),User_role.DELIVERER.name())
                         .requestMatchers("api/v1/menu/create-menu").hasAuthority(User_role.MANAGER.name())
                         .requestMatchers("api/v1/menu/remove-menu").hasAuthority(User_role.MANAGER.name())
                         .requestMatchers("api/v1/restaurant/create-restaurant").hasAuthority(User_role.ADMIN.name())
-                        .requestMatchers("api/v1/restaurant/get-restaurants").hasAuthority(User_role.ADMIN.name())
-                        .requestMatchers("api/v1/restaurant/get-restaurants").hasAuthority(User_role.CUSTOMER.name())
+                        .requestMatchers("api/v1/restaurant/get-restaurants").permitAll()
+                        .requestMatchers("api/v1/restaurant/edit-restaurant").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/restaurant/change-restaurant-status").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("api/v1/loyalty/create-loyalty").hasAuthority(User_role.MANAGER.name())
                         .requestMatchers("api/v1/order/create-order").hasAuthority(User_role.CUSTOMER.name())
                         .requestMatchers("api/v1/stripe/card/token").hasAuthority(User_role.CUSTOMER.name())
@@ -73,13 +81,22 @@ public class SecurityConfiguration {
                         .requestMatchers("api/v1/message-for-admin/get-messages").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("api/v1/message-for-admin/review-message").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("api/v1/ingredient/delete-ingredient").hasAuthority(User_role.ADMIN.name())
+                        .requestMatchers("api/v1/order/get-food-statistics").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/loyalty/get-loyalties-for-manager").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/food/fetch-drinks-for-loyalty").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/menu/get-menus-for-manager").hasAuthority(User_role.MANAGER.name())
+                        .requestMatchers("api/v1/user/get-available-slots").hasAuthority(User_role.DELIVERER.name())
+                        .requestMatchers("api/v1/food/get-foods-by-restaurant-id").permitAll()
+                        .requestMatchers("api/v1/food/get-foods-by-user-id").hasAnyAuthority(User_role.MANAGER.name(),User_role.DELIVERER.name())
+                        .requestMatchers("api/v1/user/create-manager-or-deliverer").hasAuthority(User_role.ADMIN.name())
+                        .requestMatchers("api/v1/user/add-manager-or-deliverer-to-restaurant").hasAuthority(User_role.ADMIN.name())
+                        .requestMatchers("api/v1/user/get-deliverers-and-managers").hasAuthority(User_role.ADMIN.name())
                         .requestMatchers("api/v1/image/upload-image").permitAll()
                         .requestMatchers("api/v1/image/get-image-test").permitAll()
                         .requestMatchers("/api/v1/restaurant/get-restaurant").permitAll()
                         .requestMatchers("ws/**").permitAll()
                         .requestMatchers("/app/application").permitAll()
                         .requestMatchers("api/v1/location-test/**").permitAll()
-                        .requestMatchers(HttpMethod.OPTIONS,"/**").permitAll()
                         .anyRequest().authenticated())
                 .sessionManagement(manager->manager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authenticationProvider(authenticationProvider()).addFilterBefore(
@@ -110,5 +127,13 @@ public class SecurityConfiguration {
                 registry.addMapping("/**").allowedOrigins("http://localhost:3000");
             }
         };
+    }
+
+    @Bean
+    public MappingJackson2HttpMessageConverter mappingJackson2HttpMessageConverter() {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter(mapper);
+        return converter;
     }
 }
