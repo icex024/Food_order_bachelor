@@ -48,12 +48,6 @@ public class User implements UserDetails {
     private String streetNumber;
 
     @Column
-    private double latitude;
-
-    @Column
-    private double longitude;
-
-    @Column
     @Enumerated(EnumType.STRING)
     private User_role role;
 

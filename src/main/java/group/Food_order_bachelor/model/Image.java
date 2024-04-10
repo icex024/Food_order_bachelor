@@ -33,8 +33,8 @@ public class Image {
     @Column(name = "size")
     private long size;
 
-    @Column(name = "system_name")
-    private String systemName;
+//    @Column(name = "system_name")
+//    private String systemName;
 
     @Lob
     @Column(name = "data")

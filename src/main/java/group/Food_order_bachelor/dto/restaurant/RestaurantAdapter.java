@@ -58,8 +58,6 @@ public class RestaurantAdapter {
                 .workTimeEnd(restaurant.getWorkTimeEnd())
                 .workTimeStart(restaurant.getWorkTimeStart())
                 .loyaltyDefinitionIds(loyaltiesIds)
-                .latitude(restaurant.getLatitude())
-                .longitude(restaurant.getLongitude())
                 .image(checkImage(restaurant.getImageRestaurant()))
                 .build();
     }
@@ -86,8 +84,6 @@ public class RestaurantAdapter {
         restaurant.setCountry(dto.getCountry());
         restaurant.setWorkTimeStart(dto.getWorkTimeStart());
         restaurant.setWorkTimeEnd(dto.getWorkTimeEnd());
-        restaurant.setLatitude(dto.getLatitude());
-        restaurant.setLongitude(dto.getLongitude());
         return restaurant;
     }
 

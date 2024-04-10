@@ -56,20 +56,20 @@ public class Restaurant {
     @OneToMany(mappedBy = "restaurant",fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     private Set<LoyaltyDefinition> loyaltyDefinitions = new HashSet<>();
 
-    @Column(name="numberofslotsformakingfood")
-    private int numberOfSlotsForMakingFood;
-
-    @Column(name="freeslots")
-    private int freeSlots;
+//    @Column(name="numberofslotsformakingfood")
+//    private int numberOfSlotsForMakingFood;
+//
+//    @Column(name="freeslots")
+//    private int freeSlots;
 
     @OneToMany(mappedBy = "restaurant",fetch = FetchType.LAZY,cascade = CascadeType.ALL)
     private Set<Order> orders = new HashSet<>();
 
-    @Column
-    private double latitude;
-
-    @Column
-    private double longitude;
+//    @Column
+//    private double latitude;
+//
+//    @Column
+//    private double longitude;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "image_id", referencedColumnName = "id")

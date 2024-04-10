@@ -32,8 +32,6 @@ public class AuthenticationService implements AuthenticationServiceInterface{
                 .email(request.getEmail())
                 .password(passwordEncoder.encode(request.getPassword()))
                 .role(User_role.CUSTOMER)
-                .longitude(request.getLongitude())
-                .latitude(request.getLatitude())
                 .build();
         userRepository.save(user);
         var jwt = jwtService.generateToken(user,user.getId().toString());

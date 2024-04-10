@@ -19,6 +19,4 @@ public class SignUp {
     private String city;
     private String streetName;
     private String streetNumber;
-    private double latitude;
-    private double longitude;
 }
