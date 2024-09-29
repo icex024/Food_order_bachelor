@@ -13,7 +13,7 @@ public class ViewOrderDto {
     private String id;
     private String customerId;
     private String restaurantId;
-    private List<String> foodIds;
+    private List<FoodForOrderDto> foods;
     private double price;
     private String note;
     private String paymentType;

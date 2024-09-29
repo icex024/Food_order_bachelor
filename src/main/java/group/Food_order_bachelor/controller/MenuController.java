@@ -1,6 +1,7 @@
 package group.Food_order_bachelor.controller;
 
 import group.Food_order_bachelor.dto.menu.CreateMenuDto;
+import group.Food_order_bachelor.dto.menu.MenuAndFoodDto;
 import group.Food_order_bachelor.dto.menu.MenuToShowDto;
 import group.Food_order_bachelor.service.foodService.FoodService;
 import group.Food_order_bachelor.service.menuService.MenuService;
@@ -44,5 +45,11 @@ public class MenuController {
     public List<MenuToShowDto> getMenusForManager(@RequestParam String managerId){
         return menuService.getMenusForClientApp(
                 userService.getUserById(UUID.fromString(managerId)).getRestaurant().getId().toString());
+    }
+
+    @GetMapping("/get-menus-and-foods-for-restaurant")
+    @CrossOrigin("http://localhost:3000")
+    public List<MenuAndFoodDto> getMenusAndFoodsForRestaurant(@RequestParam String restaurantId){
+        return menuService.getMenusAndFoods(restaurantId);
     }
 }

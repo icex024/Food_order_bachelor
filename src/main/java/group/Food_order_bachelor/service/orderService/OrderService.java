@@ -39,10 +39,10 @@ public class OrderService implements OrderServiceInterface {
         var order = orderAdapter.createOrderDtoToOrder(dto,user,addFreeDrinks(foods,loyalties));
         order.setPrice(calculateOrderPrice(foods,loyalties));
         order.setEstimatedTime(calculateEstimatedTime(foods));
-        order.setStatus(Order_status.PROCESS.name());
+        order.setStatus(Order_status.READY.name());
         order.setRestaurant(restaurant);
         orderRepository.save(order);
-        setTimer(order,orderRepository);
+//        setTimer(order,orderRepository);
     }
 
     @Override

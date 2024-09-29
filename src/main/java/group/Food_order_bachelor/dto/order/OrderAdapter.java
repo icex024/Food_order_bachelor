@@ -32,7 +32,7 @@ public class OrderAdapter {
                 .id(order.getId().toString())
                 .customerId(order.getUser().getId().toString())
                 .restaurantId(order.getRestaurant().getId().toString())
-                .foodIds(getFoodIds(order.getFoods()))
+                .foods(getFoodForOrderDtos(order.getFoods()))
                 .price(order.getPrice())
                 .note(order.getNote())
                 .paymentType(order.getPaymentType().toString())
@@ -53,11 +53,15 @@ public class OrderAdapter {
         }
     }
 
-    private List<String> getFoodIds(List<Food> foods){
-        List<String> ids = new ArrayList<>();
+    private List<FoodForOrderDto> getFoodForOrderDtos(List<Food> foods){
+        List<FoodForOrderDto> dtos = new ArrayList<>();
         for(var food : foods){
-            ids.add(food.getId().toString());
+            dtos.add(FoodForOrderDto
+                    .builder()
+                    .id(food.getId().toString())
+                    .name(food.getName())
+                    .build());
         }
-        return ids;
+        return dtos;
     }
 }

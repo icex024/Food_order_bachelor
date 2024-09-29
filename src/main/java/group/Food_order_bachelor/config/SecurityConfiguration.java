@@ -94,6 +94,7 @@ public class SecurityConfiguration {
                         .requestMatchers("api/v1/image/upload-image").permitAll()
                         .requestMatchers("api/v1/image/get-image-test").permitAll()
                         .requestMatchers("/api/v1/restaurant/get-restaurant").permitAll()
+                        .requestMatchers("/api/v1/menu/get-menus-and-foods-for-restaurant").hasAnyAuthority(User_role.MANAGER.name(),User_role.CUSTOMER.name())
                         .requestMatchers("ws/**").permitAll()
                         .requestMatchers("/app/application").permitAll()
                         .requestMatchers("api/v1/location-test/**").permitAll()

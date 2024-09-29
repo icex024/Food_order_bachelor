@@ -2,6 +2,7 @@ package group.Food_order_bachelor.service.menuService;
 
 import group.Food_order_bachelor.dto.menu.CreateMenuDto;
 import group.Food_order_bachelor.dto.menu.MenuAdapter;
+import group.Food_order_bachelor.dto.menu.MenuAndFoodDto;
 import group.Food_order_bachelor.dto.menu.MenuToShowDto;
 import group.Food_order_bachelor.model.Menu;
 import group.Food_order_bachelor.model.Restaurant;
@@ -49,6 +50,17 @@ public class MenuService implements MenuServiceInterface {
         List<MenuToShowDto> retList = new ArrayList<>();
         for(var menu: menus){
             retList.add(menuAdapter.menuToMenuToShow(menu));
+        }
+        return retList;
+    }
+
+    @Override
+    public List<MenuAndFoodDto> getMenusAndFoods(String restaurantId) {
+        List<Menu> menus = menuRepository.getMenusByRestaurant(UUID.fromString(restaurantId));
+        List<MenuAndFoodDto> retList = new ArrayList<>();
+        for(var menu: menus){
+
+            retList.add(menuAdapter.MenuToMenuAndFood(menu));
         }
         return retList;
     }
